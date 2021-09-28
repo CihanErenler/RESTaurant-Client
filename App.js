@@ -6,6 +6,7 @@ import data from "./src/data/data";
 import dummy_data from "./src/data/dummy_data";
 import HomeScreen from "./src/screens/HomeScreen";
 import CategoriesScreen from "./src/screens/CategoriesScreen";
+import { Foundation } from "@expo/vector-icons";
 
 function SettingsScreen() {
   return (
@@ -19,19 +20,25 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [rest, setRest] = useState(dummy_data);
+  const [city, setCity] = useState("helsinki");
+  const [search, setSearch] = useState("");
 
-  const fetchData = async () => {
+  const handleSearch = () => {
+    fetchData(city, search);
+  };
+
+  const fetchData = async (city, search) => {
     await data
-      .getByCity()
+      .getByCity(city, search)
       .then((res) => {
-        console.log(res.businesses);
+        console.log(res);
         setRest(res.businesses);
       })
       .catch((err) => console.log(err.stack));
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(city, search);
   }, []);
 
   return (
@@ -43,7 +50,15 @@ export default function App() {
             headerShown: false,
           }}
         >
-          {(props) => <HomeScreen {...props} rest={rest} />}
+          {(props) => (
+            <HomeScreen
+              {...props}
+              rest={rest}
+              search={search}
+              setSearch={setSearch}
+              onEnd={handleSearch}
+            />
+          )}
         </Tab.Screen>
         <Tab.Screen name="Categories" component={CategoriesScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />

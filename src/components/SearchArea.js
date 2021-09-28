@@ -12,11 +12,18 @@ import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const SearchArea = () => {
+const SearchArea = ({ onEnd, search, setSearch }) => {
   return (
     <View style={styles.searchArea}>
-      <TextInput style={styles.input} placeholder="Search..." />
-      <TouchableOpacity style={styles.icon}>
+      <TextInput
+        autoCorrect={false}
+        onEndEditing={onEnd}
+        style={styles.input}
+        value={search}
+        onChangeText={(value) => setSearch(value)}
+        placeholder="Search..."
+      />
+      <TouchableOpacity onPress={onEnd} style={styles.icon}>
         <AntDesign name="search1" size={24} color={colors.primary} />
       </TouchableOpacity>
     </View>

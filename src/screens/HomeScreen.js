@@ -6,27 +6,15 @@ import SearchArea from "../components/SearchArea";
 import colors from "../helpers/colors";
 import { Ionicons } from "@expo/vector-icons";
 
-function HomeScreen({ rest }) {
+function HomeScreen({ rest, search, setSearch, onEnd }) {
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.textWrap}>
         <Text style={styles.mainTitle}>What do you want to eat today?</Text>
       </View>
-      <SearchArea />
-      <Text
-        style={{
-          width: "100%",
-          paddingRight: 20,
-          color: "coral",
-          textAlign: "right",
-          paddingRight: 30,
-          paddingBottom: 10,
-        }}
-      >
-        Filter
-      </Text>
+      <SearchArea search={search} setSearch={setSearch} onEnd={onEnd} />
       {rest.length > 0 ? (
-        <View>
+        <View style={styles.listWrap}>
           <FlatList
             showsVerticalScrollIndicator={false}
             data={rest}
@@ -68,5 +56,8 @@ const styles = StyleSheet.create({
   },
   filter: {
     marginTop: 25,
+  },
+  listWrap: {
+    flex: 1,
   },
 });

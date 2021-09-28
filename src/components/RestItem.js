@@ -15,7 +15,14 @@ const RestItem = ({ item, onPress }) => {
     <TouchableOpacity onPress={onPress}>
       <View style={styles.card}>
         <View style={styles.imageWrap}>
-          <Image source={{ uri: item.image_url }} style={styles.image}></Image>
+          <Image
+            source={
+              item.image_url
+                ? { uri: item.image_url }
+                : require("../../assets/images/placeholder.png")
+            }
+            style={styles.image}
+          ></Image>
         </View>
         <View style={styles.details}>
           <Text numberOfLines={1} style={styles.title}>
