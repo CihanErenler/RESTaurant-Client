@@ -3,7 +3,6 @@ import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import data from "./src/data/data";
-import dummy_data from "./src/data/dummy_data";
 import HomeScreen from "./src/screens/HomeScreen";
 import CategoriesScreen from "./src/screens/CategoriesScreen";
 import { Foundation } from "@expo/vector-icons";
@@ -19,9 +18,9 @@ function SettingsScreen() {
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [rest, setRest] = useState(dummy_data);
+  const [rest, setRest] = useState(null);
   const [city, setCity] = useState("helsinki");
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("&categories=food");
 
   const handleSearch = () => {
     fetchData(city, search);
@@ -39,6 +38,7 @@ export default function App() {
 
   useEffect(() => {
     fetchData(city, search);
+    setSearch("");
   }, []);
 
   return (

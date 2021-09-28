@@ -13,7 +13,7 @@ function HomeScreen({ rest, search, setSearch, onEnd }) {
         <Text style={styles.mainTitle}>What do you want to eat today?</Text>
       </View>
       <SearchArea search={search} setSearch={setSearch} onEnd={onEnd} />
-      {rest.length > 0 ? (
+      {rest ? (
         <View style={styles.listWrap}>
           <FlatList
             showsVerticalScrollIndicator={false}

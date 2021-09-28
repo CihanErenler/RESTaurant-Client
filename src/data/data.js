@@ -5,9 +5,7 @@ const apiKey =
 export default getRest = {
   getByCity: async (city, search) => {
     const response = await fetch(
-      `${base_url}?location=${city}&categories=food${
-        search ? "&term=" + search : ""
-      }`,
+      `${base_url}?location=${city}${search ? "&term=" + search : ""}`,
       {
         headers: { Authorization: "Bearer " + apiKey },
       }
