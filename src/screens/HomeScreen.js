@@ -1,16 +1,23 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList, SafeAreaView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
 import RestItem from "../components/RestItem";
 import spacings from "../helpers/spacings";
 import SearchArea from "../components/SearchArea";
 import colors from "../helpers/colors";
 import { Ionicons } from "@expo/vector-icons";
 
-function HomeScreen({ rest, search, setSearch, onEnd }) {
+function HomeScreen({ rest, search, setSearch, onEnd, navigation }) {
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.textWrap}>
-        <Text style={styles.mainTitle}>What do you want to eat today?</Text>
+        <Text style={styles.mainTitle}>Let's eat Quality food 😋</Text>
       </View>
       <SearchArea search={search} setSearch={setSearch} onEnd={onEnd} />
       {rest ? (
@@ -21,7 +28,10 @@ function HomeScreen({ rest, search, setSearch, onEnd }) {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
               return (
-                <RestItem item={item} onPress={() => console.log("Ohuy")} />
+                <RestItem
+                  item={item}
+                  onPress={() => navigation.navigate("Details")}
+                />
               );
             }}
           />
@@ -40,6 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
+    backgroundColor: colors.bg_white,
   },
   mainTitle: {
     fontSize: 26,
@@ -49,6 +60,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     paddingTop: spacings.s20,
     color: colors.bg_dark,
+    width: "60%",
   },
   textWrap: {
     width: "100%",
@@ -59,5 +71,7 @@ const styles = StyleSheet.create({
   },
   listWrap: {
     flex: 1,
+    width: Dimensions.get("window").width,
+    paddingTop: 20,
   },
 });

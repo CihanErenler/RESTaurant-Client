@@ -9,10 +9,11 @@ import {
 } from "react-native";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
+import { Shadow } from "react-native-neomorph-shadows";
 
 const RestItem = ({ item, onPress }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={{ marginHorizontal: 20 }}>
       <View style={styles.card}>
         <View style={styles.imageWrap}>
           <Image
@@ -43,14 +44,23 @@ export default RestItem;
 
 const styles = StyleSheet.create({
   card: {
-    width: Dimensions.get("window").width - 40,
-    height: 120,
-    marginBottom: spacings.s10,
+    width: "100%",
+    height: 110,
+    marginBottom: spacings.s16,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: colors.bg_white,
-    padding: spacings.s10,
+    padding: spacings.s8,
     borderRadius: 15,
+    shadowColor: "#999",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.57,
+    shadowRadius: 10,
+
+    elevation: 23,
   },
   details: {
     alignItems: "flex-start",
@@ -59,8 +69,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacings.s12,
   },
   imageWrap: {
-    height: 100,
-    width: 100,
+    height: 95,
+    width: 120,
     borderRadius: 15,
     overflow: "hidden",
   },

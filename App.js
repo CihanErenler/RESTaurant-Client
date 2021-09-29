@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import data from "./src/data/data";
-import HomeScreen from "./src/screens/HomeScreen";
-import CategoriesScreen from "./src/screens/CategoriesScreen";
-import { Foundation } from "@expo/vector-icons";
+import TabNav from "./src/navigaiton/Tab";
 
 function SettingsScreen() {
   return (
@@ -30,7 +27,6 @@ export default function App() {
     await data
       .getByCity(city, search)
       .then((res) => {
-        console.log(res);
         setRest(res.businesses);
       })
       .catch((err) => console.log(err.stack));
@@ -42,27 +38,14 @@ export default function App() {
   }, []);
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen
-          name="Home"
-          options={{
-            headerShown: false,
-          }}
-        >
-          {(props) => (
-            <HomeScreen
-              {...props}
-              rest={rest}
-              search={search}
-              setSearch={setSearch}
-              onEnd={handleSearch}
-            />
-          )}
-        </Tab.Screen>
-        <Tab.Screen name="Categories" component={CategoriesScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <TabNav
+      rest={rest}
+      city={city}
+      search={search}
+      setRest={setRest}
+      setSearch={setSearch}
+      setCity={setCity}
+      handleSearch={handleSearch}
+    />
   );
 }

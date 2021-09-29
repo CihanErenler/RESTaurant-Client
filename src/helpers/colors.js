@@ -1,6 +1,7 @@
 const colors = {
   primary: "#54A5DA",
-  secondary: "#FEC55A",
+  secondary: "#FFC04B",
+  tabColor: "#FF8C4B",
   support: "#FEC3C7",
   accent: "#FA5D5D",
   bg_white: "#fff",
