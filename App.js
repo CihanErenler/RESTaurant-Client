@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import data from "./src/data/data";
 import HomeScreen from "./src/screens/HomeScreen";
 import CategoriesScreen from "./src/screens/CategoriesScreen";
-import { Foundation } from "@expo/vector-icons";
+import { Foundation, AntDesign } from "@expo/vector-icons";
 
 function SettingsScreen() {
   return (
@@ -48,6 +48,7 @@ export default function App() {
           name="Home"
           options={{
             headerShown: false,
+            tabBarIcon: ({color}) => <AntDesign name='home' size={24} color={color} />
           }}
         >
           {(props) => (
@@ -60,8 +61,18 @@ export default function App() {
             />
           )}
         </Tab.Screen>
-        <Tab.Screen name="Categories" component={CategoriesScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen
+          name="Categories"
+          component={CategoriesScreen}
+          options={{
+            tabBarIcon: ({color}) => <AntDesign name='appstore-o' size={24} color={color} />
+          }} />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            tabBarIcon: ({color}) => <AntDesign name='setting' size={24} color={color} />
+          }} />
       </Tab.Navigator>
     </NavigationContainer>
   );
