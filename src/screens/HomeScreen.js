@@ -6,6 +6,7 @@ import {
   FlatList,
   SafeAreaView,
   Dimensions,
+  Platform
 } from "react-native";
 import RestItem from "../components/RestItem";
 import spacings from "../helpers/spacings";
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bg_white,
   },
   mainTitle: {
+    marginTop: Platform.OS === 'android' ? spacings.s12 : 0,
     fontSize: 26,
     fontWeight: "bold",
     marginBottom: spacings.s10,
