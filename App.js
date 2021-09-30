@@ -2,15 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import data from "./src/data/data";
+import categories from "./src/data/categories";
 import TabNav from "./src/navigaiton/Tab";
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +11,12 @@ export default function App() {
   const [rest, setRest] = useState(null);
   const [city, setCity] = useState("helsinki");
   const [search, setSearch] = useState("&categories=food");
+  const [category, setCategory] = useState("");
+
+  const handlePressedCategory = (cat) => {
+    console.log("you are here " + cat);
+    setCategory(cat);
+  };
 
   const handleSearch = () => {
     fetchData(city, search);
@@ -37,6 +36,10 @@ export default function App() {
     setSearch("");
   }, []);
 
+  useEffect(() => {
+    fetchData(city, category);
+  }, [category]);
+
   return (
     <TabNav
       rest={rest}
@@ -46,6 +49,8 @@ export default function App() {
       setSearch={setSearch}
       setCity={setCity}
       handleSearch={handleSearch}
+      handleCat={handlePressedCategory}
+      categories={categories}
     />
   );
 }

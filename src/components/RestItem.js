@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
+import customStyles from "../helpers/styles";
 
 const RestItem = ({ item, onPress }) => {
   return (
@@ -51,15 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bg_white,
     padding: spacings.s8,
     borderRadius: 15,
-    shadowColor: "#999",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.57,
-    shadowRadius: 10,
-
-    elevation: 23,
+    ...customStyles.shadow_1,
   },
   details: {
     alignItems: "flex-start",

@@ -1,6 +1,7 @@
 const spacings = {
   s2: 2,
   s4: 4,
+  s5: 5,
   s6: 6,
   s8: 8,
   s10: 10,

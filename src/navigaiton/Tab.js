@@ -20,8 +20,17 @@ import LikedScreen from "../screens/LikedScreen";
 const Tab = createBottomTabNavigator();
 
 const TabNav = (props) => {
-  const { rest, city, search, setSearch, setRest, setCity, handleSearch } =
-    props;
+  const {
+    rest,
+    city,
+    search,
+    setSearch,
+    setRest,
+    setCity,
+    handleSearch,
+    handleCat,
+    categories,
+  } = props;
   return (
     <NavigationContainer>
       <Tab.Navigator>
@@ -39,8 +48,7 @@ const TabNav = (props) => {
                   <AntDesign
                     name="home"
                     size={30}
-                    color={focused ? colors.tabColor : "#666"}
-                    style={{ textAlignVertical: "center" }}
+                    color={focused ? colors.tab_color : "#666"}
                   />
                 </View>
               );
@@ -59,7 +67,6 @@ const TabNav = (props) => {
         </Tab.Screen>
         <Tab.Screen
           name="Categories"
-          component={CategoriesScreen}
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -72,13 +79,21 @@ const TabNav = (props) => {
                   <MaterialIcons
                     name="category"
                     size={30}
-                    color={focused ? colors.tabColor : "#666"}
+                    color={focused ? colors.tab_color : "#666"}
                   />
                 </View>
               );
             },
           }}
-        />
+        >
+          {(props) => (
+            <CategoriesScreen
+              {...props}
+              categories={categories}
+              onMoveBack={handleCat}
+            />
+          )}
+        </Tab.Screen>
         <Tab.Screen
           name="Liked"
           component={LikedScreen}
@@ -94,7 +109,7 @@ const TabNav = (props) => {
                   <AntDesign
                     name="heart"
                     size={24}
-                    color={focused ? colors.tabColor : "#666"}
+                    color={focused ? colors.tab_color : "#666"}
                   />
                 </View>
               );
@@ -116,7 +131,7 @@ const TabNav = (props) => {
                   <FontAwesome
                     name="user"
                     size={30}
-                    color={focused ? colors.tabColor : "#666"}
+                    color={focused ? colors.tab_color : "#666"}
                   />
                 </View>
               );
@@ -138,7 +153,7 @@ const TabNav = (props) => {
                   <Ionicons
                     name="settings"
                     size={30}
-                    color={focused ? colors.tabColor : "#666"}
+                    color={focused ? colors.tab_color : "#666"}
                   />
                 </View>
               );

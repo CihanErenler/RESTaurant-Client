@@ -73,6 +73,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Dimensions.get("window").width,
     paddingTop: 20,
-    backgroundColor: "#edfaff",
+    backgroundColor: colors.bg_light_blue,
   },
 });
