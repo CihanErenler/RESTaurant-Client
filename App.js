@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [rest, setRest] = useState(null);
   const [city, setCity] = useState("helsinki");
-  const [search, setSearch] = useState("&categories=food");
+  const [search, setSearch] = useState("food");
   const [category, setCategory] = useState("");
 
   const handlePressedCategory = (cat) => {
@@ -33,7 +33,6 @@ export default function App() {
 
   useEffect(() => {
     fetchData(city, search);
-    setSearch("");
   }, []);
 
   useEffect(() => {

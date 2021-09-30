@@ -6,14 +6,21 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  TouchableNativeFeedback,
+  Platform,
 } from "react-native";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
 
 const RestItem = ({ item, onPress }) => {
+  let Comp = TouchableOpacity;
+
+  if (Platform.OS === "android" && Platform.Version >= 21) {
+    Comp = TouchableNativeFeedback;
+  }
   return (
-    <TouchableOpacity onPress={onPress} style={{ marginHorizontal: 20 }}>
+    <Comp onPress={onPress} style={{ marginHorizontal: 20 }}>
       <View style={styles.card}>
         <View style={styles.imageWrap}>
           <Image
@@ -36,7 +43,7 @@ const RestItem = ({ item, onPress }) => {
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </Comp>
   );
 };
 

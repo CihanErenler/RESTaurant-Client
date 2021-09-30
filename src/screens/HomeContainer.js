@@ -8,7 +8,7 @@ import Details from "./Details";
 const Stack = createNativeStackNavigator();
 
 const HomeContainer = (props) => {
-  const { rest, search, setSearch, handleSearch } = props;
+  const { rest, search, setSearch, onEnd } = props;
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -23,7 +23,7 @@ const HomeContainer = (props) => {
             rest={rest}
             search={search}
             setSearch={setSearch}
-            onEnd={handleSearch}
+            onEnd={onEnd}
           />
         )}
       </Stack.Screen>

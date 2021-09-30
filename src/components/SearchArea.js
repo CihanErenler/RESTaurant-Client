@@ -21,7 +21,10 @@ const SearchArea = ({ onEnd, search, setSearch }) => {
           onEndEditing={onEnd}
           style={styles.input}
           value={search}
-          onChangeText={(value) => setSearch(value)}
+          onChangeText={(value) => {
+            setSearch(value);
+            console.log("You called me", value);
+          }}
           placeholder="Search a place..."
           placeholderTextColor="#666"
         />

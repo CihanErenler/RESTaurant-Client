@@ -6,7 +6,7 @@ import {
   FlatList,
   SafeAreaView,
   Dimensions,
-  Platform
+  Platform,
 } from "react-native";
 import RestItem from "../components/RestItem";
 import spacings from "../helpers/spacings";
@@ -31,7 +31,9 @@ function HomeScreen({ rest, search, setSearch, onEnd, navigation }) {
               return (
                 <RestItem
                   item={item}
-                  onPress={() => navigation.navigate("Details")}
+                  onPress={() =>
+                    navigation.navigate("Details", { id: item.id })
+                  }
                 />
               );
             }}
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bg_white,
   },
   mainTitle: {
-    marginTop: Platform.OS === 'android' ? spacings.s12 : 0,
+    marginTop: Platform.OS === "android" ? spacings.s12 : 0,
     fontSize: 26,
     fontWeight: "bold",
     marginBottom: spacings.s10,
