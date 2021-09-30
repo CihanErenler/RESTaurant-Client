@@ -4,9 +4,9 @@ import RestItem from "../components/RestItem";
 import spacings from "../helpers/spacings";
 import SearchArea from "../components/SearchArea";
 import colors from "../helpers/colors";
-import { Ionicons } from "@expo/vector-icons";
+import {AntDesign, Ionicons} from "@expo/vector-icons";
 
-function HomeScreen({ rest, search, setSearch, onEnd }) {
+function HomeScreen({ rest, search, setSearch, onEnd, onHeartPress }) {
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.textWrap}>
@@ -21,7 +21,7 @@ function HomeScreen({ rest, search, setSearch, onEnd }) {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
               return (
-                <RestItem item={item} onPress={() => console.log("Ohuy")} />
+                <RestItem item={item} onPress={() => console.log("Ohuy")} onHeartPress={onHeartPress}/>
               );
             }}
           />

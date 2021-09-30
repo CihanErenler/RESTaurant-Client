@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
+import {AntDesign} from "@expo/vector-icons";
 
-const RestItem = ({ item, onPress }) => {
+const RestItem = ({ item, onPress, onHeartPress }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.card}>
@@ -34,6 +35,9 @@ const RestItem = ({ item, onPress }) => {
             </View>
           </View>
         </View>
+        <TouchableOpacity style={styles.heartIcon} onPress={onHeartPress}>
+          <AntDesign name="hearto" size={24} color={colors.accent} />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -89,4 +93,8 @@ const styles = StyleSheet.create({
     color: colors.primary,
     textAlign: "center",
   },
+  heartIcon:
+  {
+    bottom: spacings.s30
+  }
 });

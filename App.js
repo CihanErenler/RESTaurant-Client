@@ -41,6 +41,21 @@ export default function App() {
     setSearch("");
   }, []);
 
+
+  let isFavorite = false;
+  const heartPressed = () =>
+  {
+    if (isFavorite === false)
+    {
+      isFavorite = true;
+      console.log("Added to favorite");
+    } else
+    {
+      isFavorite = false;
+      console.log("Removed from favorite");
+    }
+  }
+
   return (
     <NavigationContainer>
       <Tab.Navigator>
@@ -57,6 +72,7 @@ export default function App() {
               search={search}
               setSearch={setSearch}
               onEnd={handleSearch}
+              onHeartPress={heartPressed}
             />
           )}
         </Tab.Screen>
