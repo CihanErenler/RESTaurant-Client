@@ -41,7 +41,8 @@ export default SearchArea;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    paddingHorizontal: 20,
+    paddingHorizontal: spacings.s20,
+    paddingBottom: spacings.s10,
   },
   searchArea: {
     flex: 1,

@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
-import { Shadow } from "react-native-neomorph-shadows";
 
 const RestItem = ({ item, onPress }) => {
   return (
