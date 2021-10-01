@@ -2,6 +2,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import colors from '../helpers/colors'
 import spacings from '../helpers/spacings'
+import { LinearGradient } from 'expo-linear-gradient'
 
 
 const WelcomeScreen = ({loggedIn, setloggedIn}) => {
@@ -11,9 +12,15 @@ const WelcomeScreen = ({loggedIn, setloggedIn}) => {
                 <Text style={styles.title}>RESTaurant</Text>
                 <Text style={styles.bodyText}>Find your favorite restaurant and enjoy your meal</Text>
                 <TouchableOpacity
-                    style={styles.button}
                     onPress={()=>setloggedIn(true)}>
-                    <Text style={styles.buttonText}>Get Started</Text>
+                    <LinearGradient
+                        colors={['#FF7E6B', '#FFBD59']}
+                        start={[0.1, 0.9]}
+                        end={[0.9, 0.1]}
+                        locations={[0.1, 0.9]}
+                        style={styles.buttonGradient}>
+                        <Text style={styles.buttonText}>Get Started</Text>
+                    </LinearGradient>
                 </TouchableOpacity>
             </View>
             <Image style={styles.image} source={require('../../assets/images/welcome-screen.png')} resizeMode='stretch' />
@@ -51,13 +58,13 @@ const styles = StyleSheet.create({
         marginTop: spacings.s20,
         marginBottom: spacings.s30
     },
-    button: {
-        backgroundColor: colors.secondary,
+    buttonGradient: {
         width: 305,
         height: 45,
         borderRadius: 36,
         alignItems: 'center',
         justifyContent: 'center'
+
     },
     buttonText: {
         color: colors.bg_white,
