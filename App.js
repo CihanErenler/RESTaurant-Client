@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import data from "./src/data/data";
 import categories from "./src/data/categories";
 import TabNav from "./src/navigaiton/Tab";
+import WelcomeStack from "./src/navigaiton/WelcomeStack"
 
 const Tab = createBottomTabNavigator();
 
@@ -12,6 +13,7 @@ export default function App() {
   const [city, setCity] = useState("helsinki");
   const [search, setSearch] = useState("&categories=food");
   const [category, setCategory] = useState("");
+  const [loggedIn, setloggedIn] = useState(false)
 
   const handlePressedCategory = (cat) => {
     console.log("you are here " + cat);
@@ -39,6 +41,14 @@ export default function App() {
   useEffect(() => {
     fetchData(city, category);
   }, [category]);
+
+  if (!loggedIn) {
+    return (
+      <WelcomeStack
+        loggedIn={loggedIn}
+        setloggedIn={setloggedIn} />
+    )
+  }
 
   return (
     <TabNav
