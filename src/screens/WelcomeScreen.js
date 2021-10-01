@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import colors from '../helpers/colors'
 import spacings from '../helpers/spacings'
 import { LinearGradient } from 'expo-linear-gradient'
+import Button from '../components/Button'
 
 
 const WelcomeScreen = ({loggedIn, setloggedIn}) => {
@@ -11,17 +12,12 @@ const WelcomeScreen = ({loggedIn, setloggedIn}) => {
             <View style={styles.header}>
                 <Text style={styles.title}>RESTaurant</Text>
                 <Text style={styles.bodyText}>Find your favorite restaurant and enjoy your meal</Text>
-                <TouchableOpacity
-                    onPress={()=>setloggedIn(true)}>
-                    <LinearGradient
-                        colors={['#FF7E6B', '#FFBD59']}
-                        start={[0.1, 0.9]}
-                        end={[0.9, 0.1]}
-                        locations={[0.1, 0.9]}
-                        style={styles.buttonGradient}>
-                        <Text style={styles.buttonText}>Get Started</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
+                <Button
+                    model='primary'
+                    text='Get Started'
+                    onPress={()=>setloggedIn(true)}
+                    style={styles.button}
+                />
             </View>
             <Image style={styles.image} source={require('../../assets/images/welcome-screen.png')} resizeMode='stretch' />
         </View>
@@ -43,7 +39,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     image: {
-        // flex: 1,
         width: '100%'
     },
     title: {
@@ -58,17 +53,8 @@ const styles = StyleSheet.create({
         marginTop: spacings.s20,
         marginBottom: spacings.s30
     },
-    buttonGradient: {
+    button: {
         width: 305,
-        height: 45,
-        borderRadius: 36,
-        alignItems: 'center',
-        justifyContent: 'center'
-
-    },
-    buttonText: {
-        color: colors.bg_white,
-        fontWeight: '700',
-        fontSize: 16
+        height: 45
     }
 })
