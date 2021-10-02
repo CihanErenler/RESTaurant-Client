@@ -5,6 +5,7 @@ import data from "./src/data/data";
 import categories from "./src/data/categories";
 import TabNav from "./src/navigaiton/Tab";
 import Context from "./src/context/Context";
+import WelcomeStack from "./src/navigaiton/WelcomeStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,6 +15,7 @@ export default function App() {
   const [search, setSearch] = useState("food");
   const [category, setCategory] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [loggedIn, setloggedIn] = useState(false);
 
   const handlePressedCategory = (cat) => {
     console.log("you are here " + cat);
@@ -40,6 +42,10 @@ export default function App() {
   useEffect(() => {
     fetchData(city, category);
   }, [category]);
+
+  if (!loggedIn) {
+    return <WelcomeStack loggedIn={loggedIn} setloggedIn={setloggedIn} />;
+  }
 
   return (
     <Context.Provider value={(setShowModal, showModal)}>
