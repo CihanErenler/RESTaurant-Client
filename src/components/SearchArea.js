@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import Context from "../context/Context";
 import {
   StyleSheet,
   Text,
@@ -13,6 +14,10 @@ import spacings from "../helpers/spacings";
 import { Octicons } from "@expo/vector-icons";
 
 const SearchArea = ({ onEnd, search, setSearch }) => {
+  const { setShowModal } = useContext(Context);
+  console.log("This is it ==> ", useContext(Context));
+  console.log(setShowModal);
+
   return (
     <View style={styles.container}>
       <View style={styles.searchArea}>
@@ -32,9 +37,11 @@ const SearchArea = ({ onEnd, search, setSearch }) => {
           <AntDesign name="search1" size={20} color={"#666"} />
         </TouchableOpacity>
       </View>
-      <View style={styles.filter}>
-        <Octicons name="settings" size={20} color="black" />
-      </View>
+      <TouchableOpacity onPress={() => setShowModal(true)}>
+        <View style={styles.filter}>
+          <Octicons name="settings" size={20} color="black" />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };

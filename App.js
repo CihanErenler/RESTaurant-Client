@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import data from "./src/data/data";
 import categories from "./src/data/categories";
 import TabNav from "./src/navigaiton/Tab";
+import Context from "./src/context/Context";
 
 const Tab = createBottomTabNavigator();
 
@@ -12,6 +13,7 @@ export default function App() {
   const [city, setCity] = useState("helsinki");
   const [search, setSearch] = useState("food");
   const [category, setCategory] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const handlePressedCategory = (cat) => {
     console.log("you are here " + cat);
@@ -40,16 +42,18 @@ export default function App() {
   }, [category]);
 
   return (
-    <TabNav
-      rest={rest}
-      city={city}
-      search={search}
-      setRest={setRest}
-      setSearch={setSearch}
-      setCity={setCity}
-      handleSearch={handleSearch}
-      handleCat={handlePressedCategory}
-      categories={categories}
-    />
+    <Context.Provider value={(setShowModal, showModal)}>
+      <TabNav
+        rest={rest}
+        city={city}
+        search={search}
+        setRest={setRest}
+        setSearch={setSearch}
+        setCity={setCity}
+        handleSearch={handleSearch}
+        handleCat={handlePressedCategory}
+        categories={categories}
+      />
+    </Context.Provider>
   );
 }

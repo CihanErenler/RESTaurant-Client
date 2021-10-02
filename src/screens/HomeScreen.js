@@ -7,12 +7,14 @@ import {
   SafeAreaView,
   Dimensions,
   Platform,
+  Modal,
 } from "react-native";
 import RestItem from "../components/RestItem";
 import spacings from "../helpers/spacings";
 import SearchArea from "../components/SearchArea";
 import colors from "../helpers/colors";
 import { Ionicons } from "@expo/vector-icons";
+import Filter from "../components/Filter";
 
 function HomeScreen({ rest, search, setSearch, onEnd, navigation }) {
   return (
@@ -21,6 +23,7 @@ function HomeScreen({ rest, search, setSearch, onEnd, navigation }) {
         <Text style={styles.mainTitle}>Let's eat Quality food 😋</Text>
       </View>
       <SearchArea search={search} setSearch={setSearch} onEnd={onEnd} />
+      <Filter />
       {rest ? (
         <View style={styles.listWrap}>
           <FlatList

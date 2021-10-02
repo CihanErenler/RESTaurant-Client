@@ -5,9 +5,6 @@ const apiKey =
 export default getRest = {
   // Get data
   getByCity: async (city, search) => {
-    console.log(
-      `${base_url}/search?location=${city}&term=${search}&categories=fastfood`
-    );
     const response = await fetch(
       `${base_url}/search?location=${city}&term=${search}&categories=fastfood`,
       {
