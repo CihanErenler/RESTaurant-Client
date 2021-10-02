@@ -6,13 +6,15 @@ import {
   FlatList,
   SafeAreaView,
   Dimensions,
-  Platform
+  Platform,
+  Modal,
 } from "react-native";
 import RestItem from "../components/RestItem";
 import spacings from "../helpers/spacings";
 import SearchArea from "../components/SearchArea";
 import colors from "../helpers/colors";
 import { Ionicons } from "@expo/vector-icons";
+import Filter from "../components/Filter";
 
 function HomeScreen({ rest, search, setSearch, onEnd, navigation }) {
   return (
@@ -21,6 +23,7 @@ function HomeScreen({ rest, search, setSearch, onEnd, navigation }) {
         <Text style={styles.mainTitle}>Let's eat Quality food 😋</Text>
       </View>
       <SearchArea search={search} setSearch={setSearch} onEnd={onEnd} />
+      <Filter />
       {rest ? (
         <View style={styles.listWrap}>
           <FlatList
@@ -31,7 +34,9 @@ function HomeScreen({ rest, search, setSearch, onEnd, navigation }) {
               return (
                 <RestItem
                   item={item}
-                  onPress={() => navigation.navigate("Details")}
+                  onPress={() =>
+                    navigation.navigate("Details", { id: item.id })
+                  }
                 />
               );
             }}
@@ -54,7 +59,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bg_white,
   },
   mainTitle: {
-    marginTop: Platform.OS === 'android' ? spacings.s12 : 0,
+    marginTop: Platform.OS === "android" ? spacings.s12 : 0,
     fontSize: 26,
     fontWeight: "bold",
     marginBottom: spacings.s10,
