@@ -11,9 +11,9 @@ import { Rating, AirbnbRating } from "react-native-ratings";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
-import { Entypo } from "@expo/vector-icons";
+import {AntDesign} from "@expo/vector-icons";
+const RestItem = ({ item, onPress, onHeartPress }) => {
 
-const RestItem = ({ item, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={{ marginHorizontal: 20 }}>
       <View style={styles.card}>
@@ -49,6 +49,9 @@ const RestItem = ({ item, onPress }) => {
             />
           </View>
         </View>
+        <TouchableOpacity onPress={onHeartPress} style={styles.heartIcon}>
+          <AntDesign name="hearto" size={24} style={styles.icon} color={colors.light_gray_2}/>
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -108,6 +111,11 @@ const styles = StyleSheet.create({
     color: colors.primary,
     textAlign: "center",
   },
+  heartIcon:
+      {
+        right: spacings.s12,
+        bottom: spacings.s30
+      },
   rating: {
     width: "100%",
     alignItems: "flex-start",

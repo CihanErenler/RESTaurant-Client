@@ -5,7 +5,7 @@ import spacings from "../helpers/spacings";
 import { LinearGradient } from "expo-linear-gradient";
 import Button from "../components/Button";
 
-const WelcomeScreen = ({ loggedIn, setloggedIn }) => {
+const WelcomeScreen = ({navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -16,7 +16,7 @@ const WelcomeScreen = ({ loggedIn, setloggedIn }) => {
         <Button
           model="primary"
           text="Get Started"
-          onPress={() => setloggedIn(true)}
+          onPress={() => navigation.navigate("Login")}
           style={styles.button}
         />
       </View>

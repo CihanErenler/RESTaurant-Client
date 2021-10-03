@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // screens
 import WelcomeScreen from "../screens/WelcomeScreen";
+import LoginScreen from "../screens/LoginScreen";
 
 const WelcomeStack = (props) => {
   const Stack = createNativeStackNavigator();
@@ -14,10 +15,12 @@ const WelcomeStack = (props) => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Welcome">
-          {(props) => (
-            <WelcomeScreen loggedIn={loggedIn} setloggedIn={setloggedIn} />
-          )}
+          <Stack.Screen name="Welcome" component={WelcomeScreen}>
+          </Stack.Screen>
+        <Stack.Screen name="Login">
+            {(props) => (
+                <LoginScreen loggedIn={loggedIn} setloggedIn={setloggedIn}/>
+            )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
