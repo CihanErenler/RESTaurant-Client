@@ -30,6 +30,10 @@ const TabNav = (props) => {
     handleSearch,
     handleCat,
     categories,
+    showModal,
+    setShowModal,
+    itemsToShow,
+    setItemsToShow,
   } = props;
   return (
     <NavigationContainer>
@@ -62,6 +66,11 @@ const TabNav = (props) => {
               search={search}
               setSearch={setSearch}
               onEnd={handleSearch}
+              showModal={showModal}
+              setShowModal={setShowModal}
+              setRest={setRest}
+              itemsToShow={itemsToShow}
+              setItemsToShow={setItemsToShow}
             />
           )}
         </Tab.Screen>
