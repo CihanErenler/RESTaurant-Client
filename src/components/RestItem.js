@@ -12,8 +12,9 @@ import {
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
+import {AntDesign} from "@expo/vector-icons";
 
-const RestItem = ({ item, onPress }) => {
+const RestItem = ({ item, onPress, onHeartPress }) => {
   let Comp = TouchableOpacity;
 
   if (Platform.OS === "android" && Platform.Version >= 21) {
@@ -42,6 +43,9 @@ const RestItem = ({ item, onPress }) => {
             </View>
           </View>
         </View>
+        <TouchableOpacity onPress={onHeartPress} style={styles.heartIcon}>
+          <AntDesign name="hearto" size={24} style={styles.icon} color={colors.light_gray_2}/>
+        </TouchableOpacity>
       </View>
     </Comp>
   );
@@ -98,4 +102,9 @@ const styles = StyleSheet.create({
     color: colors.primary,
     textAlign: "center",
   },
+  heartIcon:
+      {
+        right: spacings.s12,
+        bottom: spacings.s30
+      }
 });
