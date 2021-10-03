@@ -13,11 +13,7 @@ import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import { Octicons } from "@expo/vector-icons";
 
-const SearchArea = ({ onEnd, search, setSearch }) => {
-  const { setShowModal } = useContext(Context);
-  console.log("This is it ==> ", useContext(Context));
-  console.log(setShowModal);
-
+const SearchArea = ({ onEnd, search, setSearch, setShowModal }) => {
   return (
     <View style={styles.container}>
       <View style={styles.searchArea}>
@@ -28,7 +24,6 @@ const SearchArea = ({ onEnd, search, setSearch }) => {
           value={search}
           onChangeText={(value) => {
             setSearch(value);
-            console.log("You called me", value);
           }}
           placeholder="Search a place..."
           placeholderTextColor="#666"

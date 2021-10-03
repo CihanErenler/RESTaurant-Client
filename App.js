@@ -11,6 +11,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [rest, setRest] = useState(null);
+  const [itemsToShow, setItemsToShow] = useState(null);
   const [city, setCity] = useState("helsinki");
   const [search, setSearch] = useState("food");
   const [category, setCategory] = useState("");
@@ -23,6 +24,7 @@ export default function App() {
   };
 
   const handleSearch = () => {
+    console.log("Entered");
     fetchData(city, search);
   };
 
@@ -31,6 +33,7 @@ export default function App() {
       .getByCity(city, search)
       .then((res) => {
         setRest(res.businesses);
+        setItemsToShow(res.businesses);
       })
       .catch((err) => console.log(err.stack));
   };
@@ -48,18 +51,20 @@ export default function App() {
   }
 
   return (
-    <Context.Provider value={(setShowModal, showModal)}>
-      <TabNav
-        rest={rest}
-        city={city}
-        search={search}
-        setRest={setRest}
-        setSearch={setSearch}
-        setCity={setCity}
-        handleSearch={handleSearch}
-        handleCat={handlePressedCategory}
-        categories={categories}
-      />
-    </Context.Provider>
+    <TabNav
+      rest={rest}
+      city={city}
+      search={search}
+      setRest={setRest}
+      setSearch={setSearch}
+      setCity={setCity}
+      handleSearch={handleSearch}
+      handleCat={handlePressedCategory}
+      categories={categories}
+      showModal={showModal}
+      setShowModal={setShowModal}
+      itemsToShow={itemsToShow}
+      setItemsToShow={setItemsToShow}
+    />
   );
 }
