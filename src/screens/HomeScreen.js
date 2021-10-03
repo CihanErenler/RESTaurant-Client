@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,6 +8,7 @@ import {
   Dimensions,
   Platform,
   Modal,
+  StatusBar,
 } from "react-native";
 import RestItem from "../components/RestItem";
 import spacings from "../helpers/spacings";
@@ -30,19 +31,104 @@ const heartPressed = () =>
   }
 }
 
-function HomeScreen({ rest, search, setSearch, onEnd, navigation }) {
+function HomeScreen({
+  rest,
+  search,
+  setSearch,
+  onEnd,
+  navigation,
+  showModal,
+  setShowModal,
+  setRest,
+  itemsToShow,
+  setItemsToShow,
+}) {
+  const [asc, setAsc] = useState(false);
+  const [desc, setDesc] = useState(false);
+
+  // When fetch a new list of restaurants check if one of the filters is on
+  // If on then apply the filter to the new list
+  useEffect(() => {
+    if (asc) {
+      sortAsc();
+    } else if (desc) {
+      sortDesc();
+    }
+  }, [rest]);
+
+  useEffect(() => {
+    if (asc) {
+      sortAsc();
+      return;
+    }
+    if (!desc && !asc) {
+      setItemsToShow(rest);
+    }
+  }, [asc]);
+
+  useEffect(() => {
+    if (desc) {
+      sortDesc();
+      return;
+    }
+    if (!desc && !asc) {
+      setItemsToShow(rest);
+    }
+  }, [desc]);
+
+  const sortAsc = () => {
+    const newList = [...filter().highest, ...filter().mid, ...filter().lowest];
+    setItemsToShow(newList);
+  };
+
+  const sortDesc = () => {
+    const newList = [...filter().lowest, ...filter().mid, ...filter().highest];
+    setItemsToShow(newList);
+  };
+
+  const handleAsc = () => {
+    setAsc(!asc);
+    setDesc(false);
+  };
+
+  const handleDesc = () => {
+    setDesc(!desc);
+    setAsc(false);
+  };
+
+  // Filter by price
+  const filter = () => {
+    const lowest = rest.filter((item) => item.price === "€");
+    const mid = rest.filter((item) => item.price === "€€");
+    const highest = rest.filter((item) => item.price === "€€€");
+    return { lowest, mid, highest };
+  };
+
   return (
     <SafeAreaView style={styles.screen}>
+      <StatusBar backgroundColor={"black"} />
       <View style={styles.textWrap}>
         <Text style={styles.mainTitle}>Let's eat Quality food 😋</Text>
       </View>
-      <SearchArea search={search} setSearch={setSearch} onEnd={onEnd} />
-      <Filter />
-      {rest ? (
+      <SearchArea
+        search={search}
+        setSearch={setSearch}
+        onEnd={onEnd}
+        setShowModal={setShowModal}
+      />
+      <Filter
+        setShowModal={setShowModal}
+        showModal={showModal}
+        handleAsc={handleAsc}
+        handleDesc={handleDesc}
+        asc={asc}
+        desc={desc}
+      />
+      {itemsToShow ? (
         <View style={styles.listWrap}>
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={rest}
+            data={itemsToShow}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
               return (
@@ -74,7 +160,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bg_white,
   },
   mainTitle: {
-    marginTop: Platform.OS === "android" ? spacings.s12 : 0,
     fontSize: 26,
     fontWeight: "bold",
     marginBottom: spacings.s10,

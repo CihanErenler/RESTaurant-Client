@@ -6,22 +6,16 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  TouchableNativeFeedback,
-  Platform,
 } from "react-native";
+import { Rating, AirbnbRating } from "react-native-ratings";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
 import {AntDesign} from "@expo/vector-icons";
-
 const RestItem = ({ item, onPress, onHeartPress }) => {
-  let Comp = TouchableOpacity;
 
-  if (Platform.OS === "android" && Platform.Version >= 21) {
-    Comp = TouchableNativeFeedback;
-  }
   return (
-    <Comp onPress={onPress} style={{ marginHorizontal: 20 }}>
+    <TouchableOpacity onPress={onPress} style={{ marginHorizontal: 20 }}>
       <View style={styles.card}>
         <View style={styles.imageWrap}>
           <Image
@@ -42,12 +36,24 @@ const RestItem = ({ item, onPress, onHeartPress }) => {
               <Text style={styles.pillText}>{item.categories[0].title}</Text>
             </View>
           </View>
+          <View style={styles.rating}>
+            <View style={styles.address}>
+              <Entypo name="location-pin" size={18} color="#FA5D5D" />
+              <Text>{item.location.address1}</Text>
+            </View>
+            <Rating
+              ratingColor="tomato"
+              startingValue={parseFloat(item.rating)}
+              readonly={true}
+              imageSize={15}
+            />
+          </View>
         </View>
         <TouchableOpacity onPress={onHeartPress} style={styles.heartIcon}>
           <AntDesign name="hearto" size={24} style={styles.icon} color={colors.light_gray_2}/>
         </TouchableOpacity>
       </View>
-    </Comp>
+    </TouchableOpacity>
   );
 };
 
@@ -89,16 +95,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   pill: {
-    minWidth: 80,
+    minWidth: 50,
     paddingVertical: 3,
-    height: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 20,
     borderRadius: 24,
     backgroundColor: `rgba(25,156,219,0.1)`,
     marginTop: 5,
     paddingHorizontal: spacings.s10,
+    marginBottom: spacings.s5,
   },
   pillText: {
-    fontSize: 16,
+    fontSize: 14,
     color: colors.primary,
     textAlign: "center",
   },
@@ -106,5 +115,14 @@ const styles = StyleSheet.create({
       {
         right: spacings.s12,
         bottom: spacings.s30
-      }
+      },
+  rating: {
+    width: "100%",
+    alignItems: "flex-start",
+  },
+  address: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: spacings.s5,
+  },
 });
