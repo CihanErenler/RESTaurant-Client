@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
     StyleSheet,
     View,
@@ -18,40 +18,67 @@ import { AntDesign } from "@expo/vector-icons";
 
 const LoginScreen = ({ loggedIn, setloggedIn }) =>
 {
+    const [isLogin, setIsLogin] = useState(true);
+    const [isSignup, setIsSignup] = useState(false);
+
+    const loginFocused =
+        {
+            style: isLogin ? styles.authFocusedTxt : styles.authTxt,
+            borderBottomWidth: isLogin ? 3 : 0,
+            borderBottomColor: isLogin ? colors.secondary : 0
+        }
+    const signupFocused =
+        {
+            style: isSignup ? styles.authFocusedTxt : styles.authTxt,
+            borderBottomWidth: isSignup ? 3 : 0,
+            borderBottomColor: isSignup ? colors.secondary : 0
+        }
+
+    const loginPressed = () =>
+    {
+        setIsLogin(true);
+        setIsSignup(false);
+    }
+    const signupPressed = () =>
+    {
+        setIsLogin(false);
+        setIsSignup(true);
+    }
+
     return(
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-            <Image style={styles.image} source={require('../../assets/images/login-screen.png')} resizeMode="stretch" />
-            <View style={styles.header}>
-                <Text style={styles.title}>
-                    RESTaurant
-                </Text>
-                <Text style={styles.bodyText}>
-                    Food app
-                </Text>
-            </View>
-            <View style={styles.authMethod}>
-                <TouchableOpacity style={styles.loginBtn}>
-                    <Text style={styles.authTxt}>Login</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.signupBtn}>
-                    <Text style={styles.authTxt}>Signup</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.inputContainer}>
-                <View style={styles.txtInput}>
-                    <TextInput autoCorrect={false} placeholder="Email" keyboardType="email-address" style={{width: "100%"}} />
-                    <AntDesign name="user" size={24} style={styles.icon}/>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.inner}>
+                    <Image style={styles.image} source={require('../../assets/images/login-screen.png')} resizeMode="stretch" />
+                    <View style={styles.header}>
+                        <Text style={styles.title}>
+                            RESTaurant
+                        </Text>
+                        <Text style={styles.bodyText}>
+                            Food app
+                        </Text>
+                    </View>
+                    <View style={styles.authMethod}>
+                        <TouchableOpacity style={[styles.loginBtn, loginFocused]} onPress={loginPressed}>
+                            <Text {...loginFocused}>Login</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.signupBtn, signupFocused]} onPress={signupPressed}>
+                            <Text {...signupFocused}>Signup</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <View style={styles.txtInput}>
+                            <TextInput autoCorrect={false} placeholder="Email" keyboardType="email-address" style={{width: "100%"}} />
+                            <AntDesign name="user" size={24} style={styles.icon}/>
+                        </View>
+                        <View style={styles.txtInput}>
+                            <TextInput autoCorrect={false} placeholder="Password" secureTextEntry={true} style={{width: "100%"}}/>
+                            <AntDesign name="lock" size={24} style={styles.icon}/>
+                        </View>
+                    </View>
+                    <Button model="primary" text="Login" style={styles.button} onPress={() => setloggedIn(true)} />
                 </View>
-                <View style={styles.txtInput}>
-                    <TextInput autoCorrect={false} placeholder="Password" secureTextEntry={true} style={{width: "100%"}}/>
-                    <AntDesign name="lock" size={24} style={styles.icon}/>
-                </View>
-            </View>
-            <Button model="primary" text="Login" style={styles.button} onPress={() => setloggedIn(true)} />
-        </View>
-        </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
     )
 }
@@ -97,6 +124,10 @@ const styles = StyleSheet.create({
         {   fontSize: 14,
             fontWeight: "400"
         },
+    authFocusedTxt:
+        {
+            fontWeight: "700",
+        },
     loginBtn:
         {
             borderTopLeftRadius: 10,
@@ -105,7 +136,7 @@ const styles = StyleSheet.create({
             width: 160,
             height: 40,
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
         },
     signupBtn:
         {
@@ -116,6 +147,7 @@ const styles = StyleSheet.create({
             height: 40,
             justifyContent: "center",
             alignItems: "center"
+
         },
     inputContainer:
         {
