@@ -12,15 +12,24 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [rest, setRest] = useState(null);
   const [itemsToShow, setItemsToShow] = useState(null);
-  const [city, setCity] = useState("helsinki");
+  const [city, setCity] = useState("Helsinki");
   const [search, setSearch] = useState("food");
   const [category, setCategory] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loggedIn, setloggedIn] = useState(false);
 
+  useEffect(() => {
+    fetchData(city, search);
+  }, []);
+
+  useEffect(() => {
+    fetchData(city, category);
+  }, [category]);
+
   const handlePressedCategory = (cat) => {
     console.log("you are here " + cat);
     setCategory(cat);
+    setSearch(cat);
   };
 
   const handleSearch = () => {
@@ -38,13 +47,9 @@ export default function App() {
       .catch((err) => console.log(err.stack));
   };
 
-  useEffect(() => {
+  const handleChangeLocation = (city) => {
     fetchData(city, search);
-  }, []);
-
-  useEffect(() => {
-    fetchData(city, category);
-  }, [category]);
+  };
 
   if (!loggedIn) {
     return <WelcomeStack loggedIn={loggedIn} setloggedIn={setloggedIn} />;
@@ -65,6 +70,7 @@ export default function App() {
       setShowModal={setShowModal}
       itemsToShow={itemsToShow}
       setItemsToShow={setItemsToShow}
+      onLocation={handleChangeLocation}
     />
   );
 }

@@ -34,6 +34,7 @@ const TabNav = (props) => {
     setShowModal,
     itemsToShow,
     setItemsToShow,
+    onLocation,
   } = props;
   return (
     <NavigationContainer>
@@ -71,6 +72,9 @@ const TabNav = (props) => {
               setRest={setRest}
               itemsToShow={itemsToShow}
               setItemsToShow={setItemsToShow}
+              city={city}
+              setCity={setCity}
+              onLocation={onLocation}
             />
           )}
         </Tab.Screen>
