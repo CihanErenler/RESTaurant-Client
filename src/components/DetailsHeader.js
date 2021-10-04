@@ -15,7 +15,8 @@ import { Ionicons } from "@expo/vector-icons";
 import Pill from "../components/Pill";
 import { Rating, AirbnbRating } from "react-native-ratings";
 
-const DetailsHeader = ({ details, onPress }) => {
+const DetailsHeader = ({ details, onPress, onMapPress }) => {
+  
   return (
     <View>
       <TouchableOpacity style={styles.backbtn}>
@@ -37,6 +38,7 @@ const DetailsHeader = ({ details, onPress }) => {
             subtitle={details.location.address1 + ", " + details.location.city}
             color={colors.accent}
             icon="map-marker"
+            onPress={onMapPress}
           />
         </ImageBackground>
       </View>

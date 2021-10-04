@@ -14,10 +14,18 @@ import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import ReviewCard from "../components/ReviewCard";
 import DetailsHeader from "../components/DetailsHeader";
+import ModalMap from "./ModalMap"
 
 const Details = ({ navigation, route }) => {
   const [details, setDetails] = useState(null);
   const [reviews, setReviews] = useState("");
+  const [modalMap, setModalMap] = useState(false)
+  const [coordinate, setCoordinate] = useState()
+
+  const openMap = () => {
+    setCoordinate(details.coordinates)
+    setModalMap(true)
+  }
 
   useEffect(() => {
     if (route.params.id) {
@@ -59,6 +67,7 @@ const Details = ({ navigation, route }) => {
                   onPress={() => {
                     navigation.goBack();
                   }}
+                  onMapPress={openMap}
                 />
               }
               showsVerticalScrollIndicator={false}
@@ -77,6 +86,9 @@ const Details = ({ navigation, route }) => {
             />
           </View>
         </View>
+      )}
+      {modalMap && (
+        <ModalMap visible={modalMap} coordinate={coordinate} setVisible={setModalMap} />
       )}
     </SafeAreaView>
   );
