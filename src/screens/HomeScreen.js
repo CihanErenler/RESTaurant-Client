@@ -18,18 +18,15 @@ import { Ionicons } from "@expo/vector-icons";
 import Filter from "../components/Filter";
 
 let isFavorite = false;
-const heartPressed = () =>
-{
-  if (isFavorite === false)
-  {
+const heartPressed = () => {
+  if (isFavorite === false) {
     isFavorite = true;
     console.log("Added to favorite");
-  } else
-  {
+  } else {
     isFavorite = false;
     console.log("Removed from favorite");
   }
-}
+};
 
 function HomeScreen({
   rest,
@@ -42,9 +39,13 @@ function HomeScreen({
   setRest,
   itemsToShow,
   setItemsToShow,
+  city,
+  setCity,
+  onLocation,
 }) {
   const [asc, setAsc] = useState(false);
   const [desc, setDesc] = useState(false);
+  const [changeCity, setChangeCity] = useState(false);
 
   // When fetch a new list of restaurants check if one of the filters is on
   // If on then apply the filter to the new list
@@ -123,6 +124,11 @@ function HomeScreen({
         handleDesc={handleDesc}
         asc={asc}
         desc={desc}
+        changeCity={changeCity}
+        setChangeCity={setChangeCity}
+        city={city}
+        setCity={setCity}
+        onLocation={onLocation}
       />
       {itemsToShow ? (
         <View style={styles.listWrap}>

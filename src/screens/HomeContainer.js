@@ -18,6 +18,9 @@ const HomeContainer = (props) => {
     setRest,
     itemsToShow,
     setItemsToShow,
+    city,
+    setCity,
+    onLocation,
   } = props;
   return (
     <Stack.Navigator>
@@ -39,6 +42,9 @@ const HomeContainer = (props) => {
             setRest={setRest}
             itemsToShow={itemsToShow}
             setItemsToShow={setItemsToShow}
+            city={city}
+            setCity={setCity}
+            onLocation={onLocation}
           />
         )}
       </Stack.Screen>
