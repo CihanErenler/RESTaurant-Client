@@ -17,6 +17,8 @@ export default function App() {
   const [category, setCategory] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loggedIn, setloggedIn] = useState(false);
+  const [userCoordinate, setUserCoordinate] = useState()
+  const [fetchingType, setFetchingType] = useState('default') // 'default', 'coordinate' look fetchData()
 
   useEffect(() => {
     fetchData(city, search);
@@ -25,6 +27,10 @@ export default function App() {
   useEffect(() => {
     fetchData(city, category);
   }, [category]);
+
+  useEffect(() => {
+    if (userCoordinate) fetchData(city, category);
+  }, [userCoordinate]);
 
   const handlePressedCategory = (cat) => {
     console.log("you are here " + cat);
@@ -38,13 +44,26 @@ export default function App() {
   };
 
   const fetchData = async (city, search) => {
-    await data
-      .getByCity(city, search)
-      .then((res) => {
-        setRest(res.businesses);
-        setItemsToShow(res.businesses);
-      })
-      .catch((err) => console.log(err.stack));
+    if (fetchingType === 'default') {
+      await data
+        .getByCity(city, search)
+        .then((res) => {
+          setRest(res.businesses);
+          setItemsToShow(res.businesses);
+        })
+        .catch((err) => console.log(err.stack));
+      return
+    }
+
+    console.log('54. userCoordinate')
+    console.log(userCoordinate)
+    data.getByCoordinate(userCoordinate)
+    .then((res) => {
+      setRest(res.businesses);
+      setItemsToShow(res.businesses);
+      setFetchingType('default')
+    })
+    console.log('fetch by coordinate')
   };
 
   const handleChangeLocation = (city) => {
@@ -71,6 +90,8 @@ export default function App() {
       itemsToShow={itemsToShow}
       setItemsToShow={setItemsToShow}
       onLocation={handleChangeLocation}
+      setUserCoordinate={setUserCoordinate}
+      setFetchingType={setFetchingType}
     />
   );
 }

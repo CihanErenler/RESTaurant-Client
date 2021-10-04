@@ -32,4 +32,15 @@ export default getRest = {
     const data = await response.json();
     return data;
   },
+
+  getByCoordinate: async ({latitude, longitude}) => {
+    const radius = 3000
+    const categories = 'food'
+    const url = `${base_url}/search?latitude=${latitude}&longitude=${longitude}&radius=${radius}&categories=${categories}`
+    const response = await fetch(url, {
+      headers: { Authorization: "Bearer " + apiKey },
+    })
+    const data = await response.json();
+    return data;
+  }
 };
