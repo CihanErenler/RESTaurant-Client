@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
 
   catwrapper: {
     width: Dimensions.get("window").width - 32,
+    maxHeight: '72%',
     flex: 1,
     marginTop: spacings.s10,
     backgroundColor: colors.bg_light_blue,
