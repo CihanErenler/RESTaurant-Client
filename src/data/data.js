@@ -23,4 +23,13 @@ export default getRest = {
     const data = await response.json();
     return data;
   },
+
+  // Get data by id
+  getReviews: async (id) => {
+    const response = await fetch(`${base_url}/${id}/reviews`, {
+      headers: { Authorization: "Bearer " + apiKey },
+    });
+    const data = await response.json();
+    return data;
+  },
 };

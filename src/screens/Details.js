@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, ImageBackground,  Dimensions, TouchableOpacity, FlatList } from "react-native";
 import getRest from "../data/data";
+import colors from "../helpers/colors";
+import spacings from "../helpers/spacings";
+import ReviewCard from "../components/ReviewCard";
+import DetailsHeader from "../components/DetailsHeader";
+
 
 const Details = ({ navigation, route }) => {
   const [details, setDetails] = useState(null);
+  const [reviews, setReviews] = useState("");
+  
   useEffect(() => {
     if (route.params.id) {
       getRest
@@ -17,28 +24,55 @@ const Details = ({ navigation, route }) => {
     }
   }, []);
 
-  console.log(route.params.id);
+  useEffect(() => {
+    if (route.params.id) {
+      getRest
+        .getReviews(route.params.id)
+        .then((res) => {
+          setReviews(res.reviews);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+
   return (
-    <View>
+    <View style = {styles.container}>
       {!details ? (
         <Text>Loading...</Text>
       ) : (
-        <View>
-          <ImageBackground
-            source={{ uri: details.image_url }}
-            style={styles.image}
-          />
-        </View>
+          <View>
+              <View style = {styles.detailscreen}>
+                <FlatList
+                ListHeaderComponent={<DetailsHeader details={details} onPress ={() => {navigation.goBack()}}/>}
+                showsVerticalScrollIndicator={false}
+                data={reviews}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => {
+                return <ReviewCard name={item.user.name} rating={item.rating} date ={item.time_created} text ={item.text}/>;
+                }}/>
+              </View>
+          </View>
       )}
     </View>
   );
 };
 
+const headerComponent = () => {
+  return 
+}
+
 export default Details;
 
 const styles = StyleSheet.create({
-  image: {
-    width: 300,
-    height: 300,
+  container: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: colors.bg_white,
   },
+
+  detailscreen: {
+    height: '92%'
+  }
 });
