@@ -14,9 +14,9 @@ const customStyles = {
 
   shadow_2: {
     shadowColor: colors.bg_dark,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
     elevation: 0.5,
   },
 

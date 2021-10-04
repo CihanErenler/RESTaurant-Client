@@ -1,80 +1,79 @@
-import React from 'react'
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
-import colors from '../helpers/colors'
-import spacings from '../helpers/spacings'
+import React from "react";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
+import colors from "../helpers/colors";
+import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
 
-const ReviewCard = ({name, rating, date, text}) => {
+const ReviewCard = ({ name, rating, date, text }) => {
   return (
-    <View style = {styles.card}>
+    <View style={styles.card}>
       <View style={styles.heading}>
-        <View style ={styles.namedate}>
-          <Text style ={styles.author}>{name}</Text>
-          <Text style ={styles.date}>{date}</Text>
+        <View style={styles.namedate}>
+          <Text style={styles.author}>{name}</Text>
+          <Text style={styles.date}>{date}</Text>
         </View>
         <View style={styles.rating}>
           <Text style={styles.ratingtxt}>Rating:</Text>
-          <Text style = {styles.score}>{rating}</Text>
+          <Text style={styles.score}>{rating}</Text>
         </View>
       </View>
       <Text style={styles.txt}>{text}</Text>
     </View>
-  )
-}
+  );
+};
 
-export default ReviewCard
+export default ReviewCard;
 
 const styles = StyleSheet.create({
-
   card: {
     width: Dimensions.get("window").width - 40,
     backgroundColor: colors.light_gray,
     padding: spacings.s14,
     borderRadius: 10,
     marginBottom: spacings.s10,
-    ...customStyles.shadow_2,
-    elevation: 2
+    elevation: 2,
+    borderWidth: 0.5,
+    borderColor: "#ddd",
   },
 
   heading: {
-    paddingBottom: spacings.s10
+    paddingBottom: spacings.s10,
   },
 
   namedate: {
-    flexDirection: 'row',
-    alignItems:'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 
-  author :{
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: colors.secondary
+  author: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: colors.accent,
   },
 
   date: {
     fontSize: 11,
-    color: colors.bg_dark
+    color: colors.bg_dark,
   },
 
   rating: {
-    flexDirection: 'row'
+    flexDirection: "row",
   },
 
   ratingtxt: {
-    fontWeight: 'bold'
+    color: colors.bg_dark,
   },
 
   score: {
-    color: colors.accent,
+    color: colors.tab_color,
     paddingLeft: spacings.s4,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
 
   txt: {
-    fontStyle: 'italic',
+    fontStyle: "italic",
     color: colors.bg_dark,
-    textAlign:'justify',
-  }
-
-})
+    textAlign: "justify",
+  },
+});

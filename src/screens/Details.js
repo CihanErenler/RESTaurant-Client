@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ImageBackground,  Dimensions, TouchableOpacity, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  Dimensions,
+  TouchableOpacity,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
 import getRest from "../data/data";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import ReviewCard from "../components/ReviewCard";
 import DetailsHeader from "../components/DetailsHeader";
 
-
 const Details = ({ navigation, route }) => {
   const [details, setDetails] = useState(null);
   const [reviews, setReviews] = useState("");
-  
+
   useEffect(() => {
     if (route.params.id) {
       getRest
@@ -38,30 +46,45 @@ const Details = ({ navigation, route }) => {
   }, []);
 
   return (
-    <View style = {styles.container}>
+    <SafeAreaView style={styles.container}>
       {!details ? (
         <Text>Loading...</Text>
       ) : (
-          <View>
-              <View style = {styles.detailscreen}>
-                <FlatList
-                ListHeaderComponent={<DetailsHeader details={details} onPress ={() => {navigation.goBack()}}/>}
-                showsVerticalScrollIndicator={false}
-                data={reviews}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => {
-                return <ReviewCard name={item.user.name} rating={item.rating} date ={item.time_created} text ={item.text}/>;
-                }}/>
-              </View>
+        <View>
+          <View style={styles.detailscreen}>
+            <FlatList
+              ListHeaderComponent={
+                <DetailsHeader
+                  details={details}
+                  onPress={() => {
+                    navigation.goBack();
+                  }}
+                />
+              }
+              showsVerticalScrollIndicator={false}
+              data={reviews}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => {
+                return (
+                  <ReviewCard
+                    name={item.user.name}
+                    rating={item.rating}
+                    date={item.time_created}
+                    text={item.text}
+                  />
+                );
+              }}
+            />
           </View>
+        </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
 const headerComponent = () => {
-  return 
-}
+  return;
+};
 
 export default Details;
 
@@ -73,6 +96,6 @@ const styles = StyleSheet.create({
   },
 
   detailscreen: {
-    height: '92%'
-  }
+    marginBottom: 90,
+  },
 });
