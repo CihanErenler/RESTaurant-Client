@@ -7,12 +7,15 @@ import {
   Image,
   Dimensions,
 } from "react-native";
+import { Rating, AirbnbRating } from "react-native-ratings";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
-
-const RestItem = ({ item, onPress }) => {
+import customStyles from "../helpers/styles";
+import { AntDesign } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+const RestItem = ({ item, onPress, onHeartPress }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={{ marginHorizontal: 20 }}>
       <View style={styles.card}>
         <View style={styles.imageWrap}>
           <Image
@@ -33,7 +36,27 @@ const RestItem = ({ item, onPress }) => {
               <Text style={styles.pillText}>{item.categories[0].title}</Text>
             </View>
           </View>
+          <View style={styles.rating}>
+            <View style={styles.address}>
+              <Entypo name="location-pin" size={18} color="#FA5D5D" />
+              <Text>{item.location.address1}</Text>
+            </View>
+            <Rating
+              ratingColor="tomato"
+              startingValue={parseFloat(item.rating)}
+              readonly={true}
+              imageSize={15}
+            />
+          </View>
         </View>
+        <TouchableOpacity onPress={onHeartPress} style={styles.heartIcon}>
+          <AntDesign
+            name="hearto"
+            size={24}
+            style={styles.icon}
+            color={colors.light_gray_2}
+          />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -43,14 +66,15 @@ export default RestItem;
 
 const styles = StyleSheet.create({
   card: {
-    width: Dimensions.get("window").width - 40,
-    height: 120,
-    marginBottom: spacings.s10,
+    width: "100%",
+    height: 110,
+    marginBottom: spacings.s16,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: colors.bg_white,
-    padding: spacings.s10,
+    padding: spacings.s8,
     borderRadius: 15,
+    ...customStyles.shadow_1,
   },
   details: {
     alignItems: "flex-start",
@@ -59,8 +83,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacings.s12,
   },
   imageWrap: {
-    height: 100,
-    width: 100,
+    height: 95,
+    width: 120,
     borderRadius: 15,
     overflow: "hidden",
   },
@@ -76,17 +100,33 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   pill: {
-    minWidth: 80,
+    minWidth: 50,
     paddingVertical: 3,
-    height: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 20,
     borderRadius: 24,
     backgroundColor: `rgba(25,156,219,0.1)`,
     marginTop: 5,
     paddingHorizontal: spacings.s10,
+    marginBottom: spacings.s5,
   },
   pillText: {
-    fontSize: 16,
+    fontSize: 14,
     color: colors.primary,
     textAlign: "center",
+  },
+  heartIcon: {
+    right: spacings.s12,
+    bottom: spacings.s30,
+  },
+  rating: {
+    width: "100%",
+    alignItems: "flex-start",
+  },
+  address: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: spacings.s5,
   },
 });
