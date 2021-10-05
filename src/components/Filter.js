@@ -37,7 +37,9 @@ const Filter = ({
   const [inputValue, setInputValue] = useState("");
 
   const filter = (value) => {
-    const newList = cities.filter((val) => val.city.indexOf(value) > -1);
+    const newList = cities.filter(
+      (val) => val.city.toLowerCase().indexOf(value.toLowerCase()) > -1
+    );
     setCitiesToShow(newList);
     console.log(newList);
   };
