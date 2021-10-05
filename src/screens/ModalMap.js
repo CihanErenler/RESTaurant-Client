@@ -11,7 +11,6 @@ const ModalMap = ({visible, coordinate, setVisible}) => {
     const [bottom, setbottom] = useState(0)
 
     const mapReadyHandler = () => {
-        // setIsMapReady(false)
         setIsMapReady(true)
     }
     
@@ -70,9 +69,7 @@ const styles = StyleSheet.create({
         marginBottom: spacings.s8,
     },
     mapStyle: {
-        // width: '100%',
         width: Dimensions.get('window').width - 40,
-        // height: 320,
         height: '90%'
     }
 })
