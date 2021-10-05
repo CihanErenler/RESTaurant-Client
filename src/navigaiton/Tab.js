@@ -35,6 +35,8 @@ const TabNav = (props) => {
     itemsToShow,
     setItemsToShow,
     onLocation,
+    setUserCoordinate,
+    setFetchingType
   } = props;
   return (
     <NavigationContainer>
@@ -104,6 +106,8 @@ const TabNav = (props) => {
               {...props}
               categories={categories}
               onMoveBack={handleCat}
+              setUserCoordinate={setUserCoordinate}
+              setFetchingType={setFetchingType}
             />
           )}
         </Tab.Screen>
