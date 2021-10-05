@@ -8,7 +8,20 @@ import Details from "./Details";
 const Stack = createNativeStackNavigator();
 
 const HomeContainer = (props) => {
-  const { rest, search, setSearch, handleSearch } = props;
+  const {
+    rest,
+    search,
+    setSearch,
+    onEnd,
+    showModal,
+    setShowModal,
+    setRest,
+    itemsToShow,
+    setItemsToShow,
+    city,
+    setCity,
+    onLocation,
+  } = props;
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -23,11 +36,21 @@ const HomeContainer = (props) => {
             rest={rest}
             search={search}
             setSearch={setSearch}
-            onEnd={handleSearch}
+            onEnd={onEnd}
+            showModal={showModal}
+            setShowModal={setShowModal}
+            setRest={setRest}
+            itemsToShow={itemsToShow}
+            setItemsToShow={setItemsToShow}
+            city={city}
+            setCity={setCity}
+            onLocation={onLocation}
           />
         )}
       </Stack.Screen>
-      <Stack.Screen name="Details" component={Details} />
+      <Stack.Screen name="Details" component={Details} 
+       options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };

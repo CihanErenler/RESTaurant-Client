@@ -30,6 +30,13 @@ const TabNav = (props) => {
     handleSearch,
     handleCat,
     categories,
+    showModal,
+    setShowModal,
+    itemsToShow,
+    setItemsToShow,
+    onLocation,
+    setUserCoordinate,
+    setFetchingType
   } = props;
   return (
     <NavigationContainer>
@@ -62,6 +69,14 @@ const TabNav = (props) => {
               search={search}
               setSearch={setSearch}
               onEnd={handleSearch}
+              showModal={showModal}
+              setShowModal={setShowModal}
+              setRest={setRest}
+              itemsToShow={itemsToShow}
+              setItemsToShow={setItemsToShow}
+              city={city}
+              setCity={setCity}
+              onLocation={onLocation}
             />
           )}
         </Tab.Screen>
@@ -91,6 +106,8 @@ const TabNav = (props) => {
               {...props}
               categories={categories}
               onMoveBack={handleCat}
+              setUserCoordinate={setUserCoordinate}
+              setFetchingType={setFetchingType}
             />
           )}
         </Tab.Screen>

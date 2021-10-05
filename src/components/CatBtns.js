@@ -14,10 +14,10 @@ import { AntDesign } from "@expo/vector-icons";
 import customStyles from "../helpers/styles";
 customStyles;
 
-const CatBtns = ({ title, subtitle, color, icon }) => {
+const CatBtns = ({ title, subtitle, color, icon, style, onPress }) => {
   return (
     <View style={styles.headerbtn}>
-      <TouchableOpacity style={styles.btnwrapper}>
+      <TouchableOpacity style={{...styles.btnwrapper, ...style}} onPress={onPress}>
         <View style={styles.leftside}>
           <View
             style={[

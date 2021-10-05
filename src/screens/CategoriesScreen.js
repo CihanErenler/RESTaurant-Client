@@ -11,12 +11,21 @@ import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import CatCard from "../components/CatCard";
 import CatBtns from "../components/CatBtns";
+import * as Location from '../data/location'
 
-const Categories = ({ categories, navigation, onMoveBack }) => {
+const Categories = ({ categories, navigation, onMoveBack, setUserCoordinate, setFetchingType }) => {
   const goBackHome = (cat) => {
     navigation.navigate("Home");
     onMoveBack(cat);
   };
+
+  const goHomeNearByLocation = async () => {
+    const {coords: { latitude, longitude }} = await Location.getUserLocation()
+    // console.log(latitude, longitude)
+    setFetchingType('coordinate')
+    setUserCoordinate({latitude, longitude})
+    navigation.navigate("Home")
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,6 +41,7 @@ const Categories = ({ categories, navigation, onMoveBack }) => {
         subtitle="Closest to where you are"
         color={colors.primary}
         icon="map-marker"
+        onPress={goHomeNearByLocation}
       />
       <View style={styles.blueBg}>
         <View style={styles.catwrapper}>
@@ -64,13 +74,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: spacings.s12,
     paddingHorizontal: spacings.s20,
-    marginTop: spacings.s40,
+    marginTop: spacings.s20,
     textAlign: "left",
     color: colors.black,
   },
 
   catwrapper: {
     width: Dimensions.get("window").width - 32,
+    maxHeight: '72%',
     flex: 1,
     marginTop: spacings.s10,
     backgroundColor: colors.bg_light_blue,
