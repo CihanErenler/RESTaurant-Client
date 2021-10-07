@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "100",
     fontStyle: 'italic',
-    color: colors.light_gray_2,
+    color: "#666",
     marginBottom: spacings.s4
   }
 })

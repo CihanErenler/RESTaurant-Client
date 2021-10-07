@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, Dimensions, Modal, StyleSheet, Text, TouchableOpacity, SafeAreaView, View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { Ionicons } from "@expo/vector-icons"
 import spacings from '../helpers/spacings'
@@ -25,33 +25,37 @@ const ModalMap = ({visible, coordinate, setVisible}) => {
 
     return (
         <Modal visible={visible} coordinate={coordinate} setVisible={setVisible}>
-            <View style={styles.container}>
-                <TouchableOpacity style={styles.backbtn}>
-                    <Ionicons
-                    name="chevron-back"
-                    size={24}
-                    color="black"
-                    onPress={()=>setVisible(false)}
-                    />
-                </TouchableOpacity>
-                <MapView
-                    // bug fix not showing zooming button on MapView
-                    onMapReady={mapReadyHandler}
-                    style={isMapReady ? {...styles.mapStyle, bottom} : {}}
-                    // end bug fix
-                    showsUserLocation={true}
-                    showsMyLocationButton={true}
-                    zoomControlEnabled={true}
-                    toolbarEnabled={true}
-                    provider="google"
-                    mapType={mapType}
-                    region={region}
-                >
-                    <Marker coordinate={coordinate} 
-                        onPress={markerHandler}
-                    />
-                </MapView>
-            </View>
+            <SafeAreaView style={styles.container}>
+                <View style={styles.wrap}>
+                    <TouchableOpacity style={styles.backbtn}>
+                        <Ionicons
+                        name="chevron-back"
+                        size={24}
+                        color="black"
+                        onPress={()=>setVisible(false)}
+                        />
+                    </TouchableOpacity>
+                    <View style={styles.mapwrap}>
+                        <MapView
+                            // bug fix not showing zooming button on MapView
+                            onMapReady={mapReadyHandler}
+                            style={isMapReady ? {...styles.mapStyle, bottom} : {}}
+                            // end bug fix
+                            showsUserLocation={true}
+                            showsMyLocationButton={true}
+                            zoomControlEnabled={true}
+                            toolbarEnabled={true}
+                            provider="google"
+                            mapType={mapType}
+                            region={region}
+                        >
+                            <Marker coordinate={coordinate} 
+                                onPress={markerHandler}
+                            />
+                        </MapView>
+                    </View>
+                </View>
+            </SafeAreaView>
         </Modal>
     )
 }
@@ -61,18 +65,28 @@ export default ModalMap
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 20,
-        marginTop: spacings.s10,
-        alignItems: 'center'
+        alignItems: 'center',
     },
+
+    wrap: {
+        width: Dimensions.get("window").width - 40,
+        alignItems: 'center',
+    },
+
     backbtn: {
         alignSelf: 'flex-start',
         marginBottom: spacings.s8,
+        marginTop: Platform.OS === "android" ? spacings.s30 : null,
+    },
+    mapwrap: {
+        width: '100%',
+        height: Dimensions.get('window').height - 100,
+        borderRadius: 5,
+        overflow: 'hidden',
+        marginBottom: spacings.s20
     },
     mapStyle: {
-        // width: '100%',
-        width: Dimensions.get('window').width - 40,
-        // height: 320,
-        height: '90%'
+        width: '100%',
+        height: '100%'
     }
 })
