@@ -47,11 +47,13 @@ const RestItem = ({ item, onPress, onHeartPress }) => {
           <Text numberOfLines={1} style={styles.title}>
             {item.name}
           </Text>
-          <View style={styles.categories}>
-            <View style={styles.pill}>
-              <Text style={styles.pillText}>{item.categories[0] ? item.categories[0].title : "No categories"}</Text>
-            </View>
-          </View>
+          {item.categories.length > 0 && (
+              <View style={styles.categories}>
+                <View style={styles.pill}>
+                  <Text style={styles.pillText}>{item.categories[0].title}</Text>
+                </View>
+              </View>
+          )}
           <View style={styles.rating}>
             <View style={styles.address}>
               <Entypo name="location-pin" size={18} color="#FA5D5D" />
