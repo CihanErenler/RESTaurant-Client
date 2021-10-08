@@ -9,16 +9,16 @@ import colors from "../helpers/colors";
  * @description text: button text
  * @description onPress: function to be invoked onPress event
  * @description model: 'primary'
- * @description icon: the whole icon component. Ex. <AntDesign name='heart'... /> 
+ * @description icon: the whole icon component. Ex. <AntDesign name='heart'... />
  * @description style: style for the button container (TouchableOpacity)
  * @description textStyle: {color, fontSize, fontWeight, fontStyle}
  * @returns
  */
 const Button = (props) => {
-  const { text, model, onPress, style, textStyle, icon } = props;
+  const { text, model, onPress, style, textStyle, disabled, icon } = props;
 
   const primary = () => (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
         <LinearGradient
           colors={["#FF7E6B", "#FFBD59"]}
           start={[0.1, 0.9]}
