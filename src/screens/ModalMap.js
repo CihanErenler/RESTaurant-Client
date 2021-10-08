@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     mapwrap: {
         width: '100%',
         height: Dimensions.get('window').height - 100,
-        borderRadius: 5,
+        borderRadius: 10,
         overflow: 'hidden',
         marginBottom: spacings.s20
     },
