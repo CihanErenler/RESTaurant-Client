@@ -45,7 +45,7 @@ const ModalMap = ({visible, coordinate, setVisible}) => {
                             showsMyLocationButton={true}
                             zoomControlEnabled={true}
                             toolbarEnabled={true}
-                            provider="google"
+                            // provider="google"
                             mapType={mapType}
                             region={region}
                         >
