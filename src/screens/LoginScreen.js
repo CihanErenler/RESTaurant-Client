@@ -3,13 +3,15 @@ import {
     StyleSheet,
     View,
     Text,
-    Image,
     TouchableOpacity,
     TextInput,
     Keyboard,
     TouchableWithoutFeedback,
     KeyboardAvoidingView,
-    Platform
+    Platform,
+    ImageBackground,
+    StatusBar,
+    SafeAreaView
 } from "react-native";
 import Button from "../components/Button";
 import colors from "../helpers/colors";
@@ -20,65 +22,139 @@ const LoginScreen = ({ loggedIn, setloggedIn }) =>
 {
     const [isLogin, setIsLogin] = useState(true);
     const [isSignup, setIsSignup] = useState(false);
+    const [isNext, setIsNext] = useState(false);
+    const [name, setName] = useState("");
+    const [city, setCity] = useState("");
 
     const loginFocused =
         {
             style: isLogin ? styles.authFocusedTxt : styles.authTxt,
             borderBottomWidth: isLogin ? 3 : 0,
-            borderBottomColor: isLogin ? colors.secondary : 0
+            borderBottomColor: isLogin ? colors.secondary : 0,
         }
     const signupFocused =
         {
-            style: isSignup ? styles.authFocusedTxt : styles.authTxt,
-            borderBottomWidth: isSignup ? 3 : 0,
-            borderBottomColor: isSignup ? colors.secondary : 0
+            style: isSignup || isNext ? styles.authFocusedTxt : styles.authTxt,
+            borderBottomWidth: isSignup || isNext ? 3 : 0,
+            borderBottomColor: isSignup || isNext ? colors.secondary : 0
         }
+
+    const updateName = enteredName =>
+    {
+        setName(enteredName);
+    }
+    const updateCity = enteredCity =>
+    {
+        setCity(enteredCity);
+    }
 
     const loginPressed = () =>
     {
         setIsLogin(true);
         setIsSignup(false);
+        setIsNext(false);
+
+        setName("");
+        setCity("");
     }
     const signupPressed = () =>
     {
         setIsLogin(false);
         setIsSignup(true);
+        setIsNext(false);
+    }
+    const nextPressed = () =>
+    {
+        setIsNext(true);
+        setIsSignup(false);
     }
 
     return(
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.inner}>
-                    <Image style={styles.image} source={require('../../assets/images/login-screen.png')} resizeMode="stretch" />
-                    <View style={styles.header}>
-                        <Text style={styles.title}>
-                            RESTaurant
-                        </Text>
-                        <Text style={styles.bodyText}>
-                            Food app
-                        </Text>
-                    </View>
-                    <View style={styles.authMethod}>
-                        <TouchableOpacity style={[styles.loginBtn, loginFocused]} onPress={loginPressed}>
-                            <Text {...loginFocused}>Login</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.signupBtn, signupFocused]} onPress={signupPressed}>
-                            <Text {...signupFocused}>Signup</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <View style={styles.txtInput}>
-                            <TextInput autoCorrect={false} placeholder="Email" keyboardType="email-address" style={{width: "100%"}} />
-                            <AntDesign name="user" size={24} style={styles.icon}/>
-                        </View>
-                        <View style={styles.txtInput}>
-                            <TextInput autoCorrect={false} placeholder="Password" secureTextEntry={true} style={{width: "100%"}}/>
-                            <AntDesign name="lock" size={24} style={styles.icon}/>
-                        </View>
-                    </View>
-                    <Button model="primary" text="Login" style={styles.button} onPress={() => setloggedIn(true)} />
-                </View>
-            </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <ImageBackground style={styles.image} source={require('../../assets/images/login-screen.png')} resizeMode="cover">
+                        <StatusBar barStyle="dark-content" />
+
+                        <SafeAreaView style={styles.inner}>
+
+                            <View style={styles.header}>
+                                <Text style={styles.title}>
+                                    RESTaurant
+                                </Text>
+                                <Text style={styles.bodyText}>
+                                    Food app
+                                </Text>
+                            </View>
+
+                            <View style={styles.authMethod}>
+                                <TouchableOpacity style={[styles.loginBtn, loginFocused]} onPress={loginPressed}>
+                                    <Text {...loginFocused}>Login</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.signupBtn, signupFocused]} onPress={signupPressed}>
+                                    <Text {...signupFocused}>Signup</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            {isLogin && (
+                            <View>
+                                <View style={styles.inputContainer}>
+                                    <View style={styles.txtInput}>
+                                        <TextInput autoCorrect={false} placeholder="Email" keyboardType="email-address"
+                                                   style={styles.input}/>
+                                        <AntDesign name="user" size={24} style={styles.icon}/>
+                                    </View>
+                                    <View style={styles.txtInput}>
+                                        <TextInput autoCorrect={false} placeholder="Password" secureTextEntry={true}
+                                                   style={styles.input}/>
+                                        <AntDesign name="lock" size={24} style={styles.icon}/>
+                                    </View>
+                                </View>
+                                <Button model="primary" text="Login" style={styles.button} onPress={() => setloggedIn(true)} />
+                            </View>
+                                )}
+                            {isSignup && (
+                                <View>
+                                    <View style={styles.inputContainer}>
+                                        <View style={styles.txtInput}>
+                                            <TextInput autoCorrect={false} placeholder="Name"
+                                                       style={styles.input} value={name} onChangeText={updateName} />
+                                            <AntDesign name="user" size={24} style={styles.icon}/>
+                                        </View>
+                                        <View style={styles.txtInput}>
+                                            <TextInput autoCorrect={false} placeholder="City"
+                                                       style={styles.input} value={city} onChangeText={updateCity} />
+                                            <AntDesign name="home" size={24} style={styles.icon}/>
+                                        </View>
+                                    </View>
+                                    <Button model="primary" text="Next" style={styles.button} onPress={nextPressed} disabled={false} />
+                                </View>
+                            )}
+                            {isNext && (
+                                <View>
+                                    <View style={styles.inputContainer}>
+                                        <View style={styles.txtInput}>
+                                            <TextInput autoCorrect={false} placeholder="Email" keyboardType="email-address"
+                                                       style={styles.input}/>
+                                            <AntDesign name="mail" size={24} style={styles.icon}/>
+                                        </View>
+                                        <View style={styles.txtInput}>
+                                            <TextInput autoCorrect={false} placeholder="Password" secureTextEntry={true}
+                                                       style={styles.input}/>
+                                            <AntDesign name="lock" size={24} style={styles.icon}/>
+                                        </View>
+                                        <View style={styles.txtInput}>
+                                            <TextInput autoCorrect={false} placeholder="Repeat Password" secureTextEntry={true}
+                                                       style={styles.input}/>
+                                            <AntDesign name="lock" size={24} style={styles.icon}/>
+                                        </View>
+                                    </View>
+                                    <Button model="primary" text="Signup" style={styles.button} onPress={() => setloggedIn(true)} />
+                                </View>
+                            )}
+
+                        </SafeAreaView>
+                    </ImageBackground>
+                </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
     )
 }
@@ -90,19 +166,20 @@ const styles = StyleSheet.create({
         {
             flex: 1,
         },
+    image:
+        {
+            flex: 1,
+            width: "100%",
+        },
     inner:
         {
             flex: 1,
             alignItems: "center",
-            backgroundColor: colors.bg_white,
-        },
-    image:
-        {
-            width: "100%",
+            justifyContent: "flex-end",
         },
     header:
         {
-            margin: spacings.s30
+            margin: spacings.s30,
         },
     title:
         {
@@ -151,31 +228,33 @@ const styles = StyleSheet.create({
         },
     inputContainer:
         {
-            flex: 1,
             margin: spacings.s20,
         },
     txtInput:
         {
-            backgroundColor: colors.light_gray,
-            height: 40,
             width: 320,
-            borderRadius: 10,
-            fontSize: 14,
             flexDirection: "row",
             alignItems: "center",
+        },
+    input:
+        {
+            backgroundColor: colors.light_gray,
+            height: 40,
+            borderRadius: 10,
+            fontSize: 14,
             paddingLeft: spacings.s16,
             paddingRight: spacings.s40,
-            margin: spacings.s16
+            width: "100%",
+            margin: spacings.s10
         },
     button:
         {
             width: 305,
-            height: 45,
             margin: spacings.s40
         },
     icon:
         {
             position: "absolute",
             right: spacings.s16
-        }
+        },
 })

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   StyleSheet,
   Text,
@@ -14,6 +14,22 @@ import customStyles from "../helpers/styles";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 const RestItem = ({ item, onPress, onHeartPress }) => {
+
+  const [isHeartPressed, setIsHeartPressed] = useState(false);
+
+  const heart =
+      {
+        name: isHeartPressed ? "heart" : "hearto",
+        color: isHeartPressed ? colors.accent : colors.light_gray_2
+      }
+
+    const heartPressed = () =>
+        {
+          isHeartPressed ? setIsHeartPressed(false) : setIsHeartPressed(true);
+          onHeartPress();
+        }
+
+
   return (
     <TouchableOpacity onPress={onPress} style={{ marginHorizontal: 20 }}>
       <View style={styles.card}>
@@ -33,7 +49,7 @@ const RestItem = ({ item, onPress, onHeartPress }) => {
           </Text>
           <View style={styles.categories}>
             <View style={styles.pill}>
-              <Text style={styles.pillText}>{item.categories[0].title}</Text>
+              <Text style={styles.pillText}>{item.categories[0] ? item.categories[0].title : "No categories"}</Text>
             </View>
           </View>
           <View style={styles.rating}>
@@ -49,12 +65,11 @@ const RestItem = ({ item, onPress, onHeartPress }) => {
             />
           </View>
         </View>
-        <TouchableOpacity onPress={onHeartPress} style={styles.heartIcon}>
+        <TouchableOpacity onPress={heartPressed} style={styles.heartIcon}>
           <AntDesign
-            name="hearto"
+            {...heart}
             size={24}
             style={styles.icon}
-            color={colors.light_gray_2}
           />
         </TouchableOpacity>
       </View>
