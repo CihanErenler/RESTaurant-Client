@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import data from "./src/data/data";
 import categories from "./src/data/categories";
@@ -41,6 +41,28 @@ export default function App() {
     setCategory(cat);
     setSearch(cat);
   };
+
+  const handlePopularRest = () => {
+    console.log(city);
+    console.log(search);
+
+    let popular = [];
+    itemsToShow.forEach(item => {
+      if(item.review_count > 10) {
+        console.log("popular bee: " + item.name)
+        popular.push(item);
+      }
+    });
+
+    if (popular.length===0) {
+      Alert.alert(
+        "You are at the end of the world", 
+        "Nothing is popular here!",
+        [{text:"I understand"}]);
+        return
+      }
+    setItemsToShow(popular);
+  }
 
   const handleSearch = () => {
     console.log("Entered");
@@ -89,6 +111,7 @@ export default function App() {
       setCity={setCity}
       handleSearch={handleSearch}
       handleCat={handlePressedCategory}
+      handlePopular={handlePopularRest}
       categories={categories}
       showModal={showModal}
       setShowModal={setShowModal}

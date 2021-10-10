@@ -29,6 +29,7 @@ const TabNav = (props) => {
     setCity,
     handleSearch,
     handleCat,
+    handlePopular,
     categories,
     showModal,
     setShowModal,
@@ -107,6 +108,7 @@ const TabNav = (props) => {
               {...props}
               categories={categories}
               onMoveBack={handleCat}
+              onShowPopular={handlePopular}
               setUserCoordinate={setUserCoordinate}
               setFetchingType={setFetchingType}
             />
