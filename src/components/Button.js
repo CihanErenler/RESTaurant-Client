@@ -19,14 +19,15 @@ const Button = (props) => {
 
   const primary = () => (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
+      <View style={{ ...styles.buttonWrap, ...style }}>
         <LinearGradient
           colors={["#FF7E6B", "#FFBD59"]}
           start={[0.1, 0.9]}
           end={[0.9, 0.1]}
           locations={[0.1, 0.9]}
-          style={{...styles.gradient, ...style}}
+          style={styles.gradient}
         >
-          <View style={styles.textContainer} >
+          <View style={styles.textContainer}>
             <Text
               style={{
                 color: colors.bg_white,
@@ -39,37 +40,41 @@ const Button = (props) => {
             {icon && icon}
           </View>
         </LinearGradient>
+      </View>
     </TouchableOpacity>
-  )
+  );
 
   switch (model) {
     case "primary":
-      return primary()
-      break
+      return primary();
+      break;
 
     default:
-      return primary()
-      break
+      return primary();
+      break;
   }
 };
 
 export default Button;
 
 const styles = StyleSheet.create({
+  buttonWrap: {
+    borderRadius: 45,
+    overflow: "hidden",
+  },
   buttonText: {
     fontWeight: "700",
     fontSize: 16,
   },
   gradient: {
-    height: 45,
-    width: 300,
+    width: "100%",
+    height: "100%",
     overflow: "hidden",
-    borderRadius: 45,
   },
   textContainer: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-  }
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
 });

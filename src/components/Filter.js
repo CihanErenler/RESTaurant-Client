@@ -126,6 +126,7 @@ const Filter = ({
           ) : null}
         </View>
         <Button
+          style={styles.button}
           text="Close"
           onPress={() => {
             setShowModal(false);
@@ -210,5 +211,9 @@ const styles = StyleSheet.create({
   },
   filteredCityText: {
     textAlign: "center",
+  },
+  button: {
+    width: 305,
+    height: 45,
   },
 });
