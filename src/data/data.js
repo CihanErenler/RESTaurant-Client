@@ -1,6 +1,7 @@
-const base_url = process.env.BASE_URL;
-const apiKey = process.env.API_KEY;
-const db_url = process.env.DB_URL;
+const base_url = "https://api.yelp.com/v3/businesses";
+const apiKey =
+  "9MqBJIOqNn_zy3vOm8tz-B3f9xKL_GRSipoaJ7FOuEB8bxi_N9HEPW9pSTviGD1HSD4JJUlo5XBSqmnlytotRgdg3TsA5akH_4nnUnYmjUIEtMuLig9JW9FHe-NSYXYx";
+const db_url = "http://localhost:3000/api/";
 
 export default getRest = {
   // Get data
