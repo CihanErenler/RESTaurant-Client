@@ -30,6 +30,9 @@ const LikedScreen = () => {
     console.log("WE are here: " + JSON.stringify(liked))
   }, []);
 
+  const deleteLikedItem = id => {
+    data.deleteLiked(id);
+  }
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -47,7 +50,7 @@ const LikedScreen = () => {
               return (
                 <LikedItem
                   item={item}
-                  onPress={() =>{console.log(item._id)}}
+                  onPress={deleteLikedItem}
                 />
               );
             }}

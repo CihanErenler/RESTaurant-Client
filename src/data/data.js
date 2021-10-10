@@ -50,7 +50,6 @@ export default getRest = {
   // Get liked restaurant list
   getLikedRest: async () => {
     const token = await Auth.getKey("user-token");
-    console.log("Token " + JSON.stringify(token))
     const data = await fetch(`${db_url}/liked`, {
       method: "GET",
       headers: { "auth-token": token },
@@ -101,12 +100,15 @@ export default getRest = {
   },
 
   // Delete restaurant by id
-  deleteLiked: async (id, token) => {
+  deleteLiked: async (id) => {
+    const token = await Auth.getKey("user-token");
+    console.log("Deleting Token " + JSON.stringify(token))
     const response = await fetch(`${db_url}/liked/${id}`, {
       method: "DELETE",
-      headers: { auth_token: token, "Content-type": "application/json" },
+      headers: { "auth_token": token, "Content-type": "application/json" },
     });
     const data = await response.json();
+    console.log("We came to deleting " + "ID: " + id + "Data: " + JSON.stringify(data))
     return data;
   },
 };

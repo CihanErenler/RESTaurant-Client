@@ -11,7 +11,7 @@ import { Rating } from "react-native-ratings";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
-import { Ionicons } from '@expo/vector-icons';;
+import { EvilIcons } from '@expo/vector-icons';
 import { Entypo } from "@expo/vector-icons";
 const LikedItem = ({ item, onPress}) => {
 
@@ -45,8 +45,8 @@ const LikedItem = ({ item, onPress}) => {
             />
           </View>
         </View>
-        <TouchableOpacity onPress={onPress} style={styles.heartIcon}>
-           <Ionicons name="trash-outline" size={24} color="black" />
+        <TouchableOpacity onPress={onPress.bind(this, item._id)}>
+            <EvilIcons name="trash" size={30} color={colors.primary} />
         </TouchableOpacity>
       </View>
     </View>
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   },
   details: {
     alignItems: "flex-start",
+    justifyContent: 'center',
     flex: 1,
     height: "100%",
     paddingHorizontal: spacings.s12,
@@ -90,10 +91,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: "bold",
   },
-  heartIcon: {
-    right: spacings.s12,
-    bottom: spacings.s30,
-  },
+
   rating: {
     width: "100%",
     alignItems: "flex-start",
