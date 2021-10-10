@@ -9,7 +9,6 @@ const Auth = {
     if (result) {
       callBack(true);
     } else {
-      console.log("You are heree ===>  ");
       callBack(false);
     }
   },
