@@ -69,13 +69,13 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
       register.city === "" ||
       register.password === ""
     ) {
-      return Alert.alert("What are you doing!", "Fields can not be empty!", [
-        { text: "Oh, I am an idiot", onPress: () => console.log("OK Pressed") },
+      return Alert.alert("Validation error!", "Fields can not be empty!", [
+        { text: "Ok", onPress: () => console.log("OK Pressed") },
       ]);
     }
     if (register.password !== register.password2) {
-      return Alert.alert("What are you doing!", "Password does not match!", [
-        { text: "I am sorry", onPress: () => console.log("OK Pressed") },
+      return Alert.alert("Validation error!", "Password does not match!", [
+        { text: "Ok", onPress: () => console.log("OK Pressed") },
       ]);
     }
 
@@ -95,15 +95,25 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
   };
 
   const handleLogin = () => {
-    if (login.email === "" || login.password === "") {
-      return Alert.alert("What are you doing!", "Fields can not be empty!", [
-        { text: "Oh, I am an idiot", onPress: () => console.log("OK Pressed") },
+    const alert = {}
+    alert.wrongPassword = () => {
+      return Alert.alert("Validation error!", "Username and password does not match", [
+        { text: "Ok", onPress: () => console.log("OK Pressed") },
+      ]);
+    }
+    alert.emptyField = () => {
+      return Alert.alert("Validation error!", "Fields can not be empty!", [
+        { text: "Ok", onPress: () => console.log("OK Pressed") },
       ]);
     }
 
-    data
-      .loginUser(login)
-      .then((res) => console.log(res))
+    if (login.email === "" || login.password === "") return alert.emptyField()
+
+    data.loginUser(login)
+      .then((res) => {
+        if (res.success === 1) return setloggedIn(true)
+        if (res.success === 0) return alert.wrongPassword()
+      })
       .catch((err) => console.log(err));
   };
 
