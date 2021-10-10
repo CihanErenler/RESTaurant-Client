@@ -21,7 +21,7 @@ export default function App() {
 
   useEffect(() => {
     handleIfUserLoggedIn()
-  }, []);
+  }, [loggedIn]);
 
   useEffect(() => {
     fetchData(city, category);
@@ -31,8 +31,8 @@ export default function App() {
     if (userCoordinate) fetchData(city, category);
   }, [userCoordinate]);
   
-  const handleIfUserLoggedIn = () => {
-    const token = Auth.getValueFor("user-token");
+  const handleIfUserLoggedIn = async () => {
+    const token = await Auth.getValueFor("user-token");
     if (token) return setloggedIn(true)
   }
 
@@ -60,8 +60,6 @@ export default function App() {
       return;
     }
 
-    console.log("54. userCoordinate");
-    console.log(userCoordinate);
     data.getByCoordinate(userCoordinate).then((res) => {
       setRest(res.businesses);
       setItemsToShow(res.businesses);
