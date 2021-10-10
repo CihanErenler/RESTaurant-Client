@@ -20,21 +20,21 @@ export default function App() {
   const [fetchingType, setFetchingType] = useState("default"); // 'default', 'coordinate' look fetchData()
 
   useEffect(() => {
-    fetchData(city, search);
-    Auth.getValueFor("user-token", setloggedIn);
+    handleIfUserLoggedIn()
   }, []);
-
-  useEffect(() => {
-    Auth.getValueFor("user-token", setloggedIn);
-  }, [loggedIn]);
 
   useEffect(() => {
     fetchData(city, category);
   }, [category]);
-
+  
   useEffect(() => {
     if (userCoordinate) fetchData(city, category);
   }, [userCoordinate]);
+  
+  const handleIfUserLoggedIn = () => {
+    const token = Auth.getValueFor("user-token");
+    if (token) return setloggedIn(true)
+  }
 
   const handlePressedCategory = (cat) => {
     console.log("you are here " + cat);
@@ -48,6 +48,7 @@ export default function App() {
   };
 
   const fetchData = async (city, search) => {
+    console.log("fetchData accesed")
     if (fetchingType === "default") {
       await data
         .getByCity(city, search)
