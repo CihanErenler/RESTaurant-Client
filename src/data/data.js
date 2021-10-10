@@ -1,7 +1,8 @@
+import Auth from "../data/auth";
 const base_url = "https://api.yelp.com/v3/businesses";
 const apiKey =
   "9MqBJIOqNn_zy3vOm8tz-B3f9xKL_GRSipoaJ7FOuEB8bxi_N9HEPW9pSTviGD1HSD4JJUlo5XBSqmnlytotRgdg3TsA5akH_4nnUnYmjUIEtMuLig9JW9FHe-NSYXYx";
-const db_url = "http://localhost:3000/api/";
+const db_url = "http://localhost:3000/api";
 
 export default getRest = {
   // Get data
@@ -50,9 +51,7 @@ export default getRest = {
   getLikedRest: async (token) => {
     const data = await fetch(db_url, {
       method: "GET",
-      headers: {
-        auth_token: token,
-      },
+      headers: { auth_token: token },
     });
     const list = await data.json();
     return list;
@@ -62,10 +61,7 @@ export default getRest = {
   addLiked: async (liked, token) => {
     const response = await fetch(`${db_url}/liked`, {
       method: "POST",
-      headers: {
-        auth_token: token,
-        "Content-type": "application/json",
-      },
+      headers: { auth_token: token, "Content-type": "application/json" },
       body: JSON.stringify(liked),
     });
     const data = await response.json();
@@ -74,12 +70,14 @@ export default getRest = {
 
   // Register user
   registerUser: async (user) => {
+    const body = JSON.stringify(user);
+
     const response = await fetch(`${db_url}/user/register`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: body,
     });
     const data = await response.json();
     return data;
@@ -89,11 +87,14 @@ export default getRest = {
   loginUser: async (user) => {
     const response = await fetch(`${db_url}/user/login`, {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
+      headers: { "Content-type": "application/json" },
       body: JSON.stringify(user),
     });
+    const headers = response.headers;
+    const token = headers.get("auth-token");
+
+    console.log(token);
+    console.log(headers);
     const data = await response.json();
     return data;
   },
@@ -102,10 +103,7 @@ export default getRest = {
   deleteLiked: async (id, token) => {
     const response = await fetch(`${db_url}/liked/${id}`, {
       method: "DELETE",
-      headers: {
-        auth_token: token,
-        "Content-type": "application/json",
-      },
+      headers: { auth_token: token, "Content-type": "application/json" },
     });
     const data = await response.json();
     return data;

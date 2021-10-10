@@ -6,8 +6,7 @@ import categories from "./src/data/categories";
 import TabNav from "./src/navigaiton/Tab";
 import Context from "./src/context/Context";
 import WelcomeStack from "./src/navigaiton/WelcomeStack";
-
-const Tab = createBottomTabNavigator();
+import Auth from "./src/data/auth";
 
 export default function App() {
   const [rest, setRest] = useState(null);
@@ -17,11 +16,12 @@ export default function App() {
   const [category, setCategory] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loggedIn, setloggedIn] = useState(false);
-  const [userCoordinate, setUserCoordinate] = useState()
-  const [fetchingType, setFetchingType] = useState('default') // 'default', 'coordinate' look fetchData()
+  const [userCoordinate, setUserCoordinate] = useState();
+  const [fetchingType, setFetchingType] = useState("default"); // 'default', 'coordinate' look fetchData()
 
   useEffect(() => {
     fetchData(city, search);
+    Auth.getValueFor("user-token", setloggedIn);
   }, []);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function App() {
   };
 
   const fetchData = async (city, search) => {
-    if (fetchingType === 'default') {
+    if (fetchingType === "default") {
       await data
         .getByCity(city, search)
         .then((res) => {
@@ -52,23 +52,24 @@ export default function App() {
           setItemsToShow(res.businesses);
         })
         .catch((err) => console.log(err.stack));
-      return
+      return;
     }
 
-    console.log('54. userCoordinate')
-    console.log(userCoordinate)
-    data.getByCoordinate(userCoordinate)
-    .then((res) => {
+    console.log("54. userCoordinate");
+    console.log(userCoordinate);
+    data.getByCoordinate(userCoordinate).then((res) => {
       setRest(res.businesses);
       setItemsToShow(res.businesses);
-      setFetchingType('default')
-    })
-    console.log('fetch by coordinate')
+      setFetchingType("default");
+    });
+    console.log("fetch by coordinate");
   };
 
   const handleChangeLocation = (city) => {
     fetchData(city, search);
   };
+
+  // local storage
 
   if (!loggedIn) {
     return <WelcomeStack loggedIn={loggedIn} setloggedIn={setloggedIn} />;

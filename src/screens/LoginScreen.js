@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import data from "../data/data";
+
 import {
   StyleSheet,
   View,
@@ -12,6 +14,7 @@ import {
   ImageBackground,
   StatusBar,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import Button from "../components/Button";
 import colors from "../helpers/colors";
@@ -22,8 +25,15 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [isSignup, setIsSignup] = useState(false);
   const [isNext, setIsNext] = useState(false);
-  const [name, setName] = useState("");
-  const [city, setCity] = useState("");
+  const [login, setLogin] = useState({ email: "", password: "" });
+  const [register, setRegister] = useState({
+    name: "",
+    lastname: "",
+    email: "",
+    password: "",
+    password2: "",
+    city: "",
+  });
 
   const loginFocused = {
     style: isLogin ? styles.authFocusedTxt : styles.authTxt,
@@ -36,20 +46,10 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
     borderBottomColor: isSignup || isNext ? colors.secondary : 0,
   };
 
-  const updateName = (enteredName) => {
-    setName(enteredName);
-  };
-  const updateCity = (enteredCity) => {
-    setCity(enteredCity);
-  };
-
   const loginPressed = () => {
     setIsLogin(true);
     setIsSignup(false);
     setIsNext(false);
-
-    setName("");
-    setCity("");
   };
   const signupPressed = () => {
     setIsLogin(false);
@@ -59,6 +59,52 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
   const nextPressed = () => {
     setIsNext(true);
     setIsSignup(false);
+  };
+
+  const handleValidation = () => {
+    if (
+      register.name === "" ||
+      register.lastname === "" ||
+      register.email === "" ||
+      register.city === "" ||
+      register.password === ""
+    ) {
+      return Alert.alert("What are you doing!", "Fields can not be empty!", [
+        { text: "Oh, I am an idiot", onPress: () => console.log("OK Pressed") },
+      ]);
+    }
+    if (register.password !== register.password2) {
+      return Alert.alert("What are you doing!", "Password does not match!", [
+        { text: "I am sorry", onPress: () => console.log("OK Pressed") },
+      ]);
+    }
+
+    const newObj = {
+      name: register.name,
+      lastname: register.lastname,
+      email: register.email,
+      password: register.password,
+      city: register.city,
+    };
+
+    loginPressed();
+    data
+      .registerUser(newObj)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
+  const handleLogin = () => {
+    if (login.email === "" || login.password === "") {
+      return Alert.alert("What are you doing!", "Fields can not be empty!", [
+        { text: "Oh, I am an idiot", onPress: () => console.log("OK Pressed") },
+      ]);
+    }
+
+    data
+      .loginUser(login)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -104,6 +150,10 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                       placeholder="Email"
                       keyboardType="email-address"
                       style={styles.input}
+                      value={login.email}
+                      onChangeText={(value) => {
+                        setLogin({ ...login, email: value.toLowerCase() });
+                      }}
                     />
                     <AntDesign name="user" size={24} style={styles.icon} />
                   </View>
@@ -113,6 +163,10 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                       placeholder="Password"
                       secureTextEntry={true}
                       style={styles.input}
+                      value={login.password}
+                      onChangeText={(value) => {
+                        setLogin({ ...login, password: value });
+                      }}
                     />
                     <AntDesign name="lock" size={24} style={styles.icon} />
                   </View>
@@ -121,7 +175,7 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                   model="primary"
                   text="Login"
                   style={styles.button}
-                  onPress={() => setloggedIn(true)}
+                  onPress={handleLogin}
                 />
               </View>
             )}
@@ -133,8 +187,22 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                       autoCorrect={false}
                       placeholder="Name"
                       style={styles.input}
-                      value={name}
-                      onChangeText={updateName}
+                      value={register.name}
+                      onChangeText={(value) => {
+                        setRegister({ ...register, name: value });
+                      }}
+                    />
+                    <AntDesign name="user" size={24} style={styles.icon} />
+                  </View>
+                  <View style={styles.txtInput}>
+                    <TextInput
+                      autoCorrect={false}
+                      placeholder="Lastname"
+                      style={styles.input}
+                      value={register.lastname}
+                      onChangeText={(value) => {
+                        setRegister({ ...register, lastname: value });
+                      }}
                     />
                     <AntDesign name="user" size={24} style={styles.icon} />
                   </View>
@@ -143,8 +211,10 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                       autoCorrect={false}
                       placeholder="City"
                       style={styles.input}
-                      value={city}
-                      onChangeText={updateCity}
+                      value={register.city}
+                      onChangeText={(value) => {
+                        setRegister({ ...register, city: value });
+                      }}
                     />
                     <AntDesign name="home" size={24} style={styles.icon} />
                   </View>
@@ -167,6 +237,10 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                       placeholder="Email"
                       keyboardType="email-address"
                       style={styles.input}
+                      value={register.email}
+                      onChangeText={(value) => {
+                        setRegister({ ...register, email: value });
+                      }}
                     />
                     <AntDesign name="mail" size={24} style={styles.icon} />
                   </View>
@@ -176,6 +250,10 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                       placeholder="Password"
                       secureTextEntry={true}
                       style={styles.input}
+                      value={register.password}
+                      onChangeText={(value) => {
+                        setRegister({ ...register, password: value });
+                      }}
                     />
                     <AntDesign name="lock" size={24} style={styles.icon} />
                   </View>
@@ -185,6 +263,10 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                       placeholder="Repeat Password"
                       secureTextEntry={true}
                       style={styles.input}
+                      value={register.password2}
+                      onChangeText={(value) => {
+                        setRegister({ ...register, password2: value });
+                      }}
                     />
                     <AntDesign name="lock" size={24} style={styles.icon} />
                   </View>
@@ -193,7 +275,7 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                   model="primary"
                   text="Signup"
                   style={styles.button}
-                  onPress={() => setloggedIn(true)}
+                  onPress={handleValidation}
                 />
               </View>
             )}
