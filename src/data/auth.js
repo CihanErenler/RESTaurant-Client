@@ -12,6 +12,9 @@ const Auth = {
       callBack(false);
     }
   },
+  deleteToken: async (key) => {
+    await SecureStore.deleteItemAsync(key);
+  },
 };
 
 export default Auth;

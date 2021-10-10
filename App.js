@@ -25,6 +25,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    Auth.getValueFor("user-token", setloggedIn);
+  }, [loggedIn]);
+
+  useEffect(() => {
     fetchData(city, category);
   }, [category]);
 
@@ -93,6 +97,7 @@ export default function App() {
       onLocation={handleChangeLocation}
       setUserCoordinate={setUserCoordinate}
       setFetchingType={setFetchingType}
+      setloggedIn={setloggedIn}
     />
   );
 }
