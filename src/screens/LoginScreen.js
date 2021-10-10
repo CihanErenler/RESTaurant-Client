@@ -162,7 +162,7 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                       style={styles.input}
                       value={login.email}
                       onChangeText={(value) => {
-                        setLogin({ ...login, email: value.toLowerCase() });
+                        setLogin({ ...login, email: value});
                       }}
                     />
                     <AntDesign name="user" size={24} style={styles.icon} />
