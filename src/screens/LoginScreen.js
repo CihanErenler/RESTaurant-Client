@@ -96,16 +96,17 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
 
   const handleLogin = () => {
     if (login.email === "" || login.password === "") {
-      return Alert.alert("What are you doing!", "Fields can not be empty!", [
-        { text: "Oh, I am an idiot", onPress: () => console.log("OK Pressed") },
-      ]);
-    }
 
+    return Alert.alert("What are you doing!", "Fields can not be empty!", [
+    { text: "Oh, I am an idiot", onPress: () => console.log("OK Pressed") },
+    ]);
+    }
+    
     data
-      .loginUser(login)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
+    .loginUser({ ...login, email: login.email.toLowerCase() })
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+    };
 
   return (
     <KeyboardAvoidingView
@@ -152,7 +153,7 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                       style={styles.input}
                       value={login.email}
                       onChangeText={(value) => {
-                        setLogin({ ...login, email: value.toLowerCase() });
+                        setLogin({ ...login, email: value});
                       }}
                     />
                     <AntDesign name="user" size={24} style={styles.icon} />

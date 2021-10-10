@@ -49,7 +49,7 @@ export default getRest = {
 
   // Get liked restaurant list
   getLikedRest: async (token) => {
-    const data = await fetch(db_url, {
+    const data = await fetch(`${db_url}/liked`, {
       method: "GET",
       headers: { auth_token: token },
     });
