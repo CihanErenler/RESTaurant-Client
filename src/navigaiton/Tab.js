@@ -36,7 +36,7 @@ const TabNav = (props) => {
     setItemsToShow,
     onLocation,
     setUserCoordinate,
-    setFetchingType
+    setFetchingType,
   } = props;
   return (
     <NavigationContainer>
