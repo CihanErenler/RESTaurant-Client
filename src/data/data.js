@@ -2,7 +2,7 @@ import Auth from "../data/auth";
 const base_url = "https://api.yelp.com/v3/businesses";
 const apiKey =
   "9MqBJIOqNn_zy3vOm8tz-B3f9xKL_GRSipoaJ7FOuEB8bxi_N9HEPW9pSTviGD1HSD4JJUlo5XBSqmnlytotRgdg3TsA5akH_4nnUnYmjUIEtMuLig9JW9FHe-NSYXYx";
-const db_url = "http://192.168.38.113:3000/api";
+const db_url = "http://localhost:3000/api";
 
 export default getRest = {
   // Get data
@@ -93,7 +93,7 @@ export default getRest = {
     const headers = response.headers;
     const token = headers.get("auth-token");
 
-    if (token) Auth.saveToken("user-token", token)
+    if (token) Auth.saveToken("user-token", token);
     const data = await response.json();
     return data;
   },

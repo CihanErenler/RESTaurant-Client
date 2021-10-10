@@ -37,6 +37,7 @@ const TabNav = (props) => {
     onLocation,
     setUserCoordinate,
     setFetchingType,
+    setloggedIn,
   } = props;
   return (
     <NavigationContainer>
@@ -157,7 +158,6 @@ const TabNav = (props) => {
         />
         <Tab.Screen
           name="Settings"
-          component={SettingsScreen}
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -176,7 +176,9 @@ const TabNav = (props) => {
               );
             },
           }}
-        />
+        >
+          {(props) => <SettingsScreen {...props} setloggedIn={setloggedIn} />}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

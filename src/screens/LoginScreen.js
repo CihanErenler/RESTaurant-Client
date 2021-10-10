@@ -95,24 +95,29 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
   };
 
   const handleLogin = () => {
-    const alert = {}
+    const alert = {};
     alert.wrongPassword = () => {
-      return Alert.alert("Validation error!", "Username and password does not match", [
-        { text: "Ok", onPress: () => console.log("OK Pressed") },
-      ]);
-    }
+      return Alert.alert(
+        "Validation error!",
+        "Username and password does not match",
+        [{ text: "Ok", onPress: () => console.log("OK Pressed") }]
+      );
+    };
     alert.emptyField = () => {
       return Alert.alert("Validation error!", "Fields can not be empty!", [
         { text: "Ok", onPress: () => console.log("OK Pressed") },
       ]);
-    }
+    };
 
-    if (login.email === "" || login.password === "") return alert.emptyField()
+    if (login.email === "" || login.password === "") return alert.emptyField();
 
-    data.loginUser(login)
+    console.log(login);
+
+    data
+      .loginUser(login)
       .then((res) => {
-        if (res.success === 1) return setloggedIn(true)
-        if (res.success === 0) return alert.wrongPassword()
+        if (res.success === 1) return setloggedIn(true);
+        if (res.success === 0) return alert.wrongPassword();
       })
       .catch((err) => console.log(err));
   };
@@ -162,7 +167,7 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
                       style={styles.input}
                       value={login.email}
                       onChangeText={(value) => {
-                        setLogin({ ...login, email: value});
+                        setLogin({ ...login, email: value });
                       }}
                     />
                     <AntDesign name="user" size={24} style={styles.icon} />
