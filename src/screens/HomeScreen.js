@@ -187,5 +187,6 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     paddingTop: 20,
     backgroundColor: colors.bg_light_blue,
+    paddingBottom: Platform.OS === "android" ? 100 : 60,
   },
 });

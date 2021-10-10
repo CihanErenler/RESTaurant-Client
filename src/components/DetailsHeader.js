@@ -29,7 +29,11 @@ const DetailsHeader = ({ details, onPress, onMapPress }) => {
       </TouchableOpacity>
       <View style={styles.picwrapper}>
         <ImageBackground
-          source={{ uri: details.image_url }}
+          source={
+              details.image_url
+              ? { uri: details.image_url }
+              : require("../../assets/images/placeholder.png")
+          }
           style={styles.image}
         >
           <CatBtns

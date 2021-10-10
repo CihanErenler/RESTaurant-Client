@@ -1,13 +1,19 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import { LinearGradient } from "expo-linear-gradient";
 import Button from "../components/Button";
+import { StatusBar } from "expo-status-bar";
 
 const WelcomeScreen = ({navigation }) => {
   return (
     <View style={styles.container}>
+      <StatusBar StatusBarStyle="dark"/>
+      <ImageBackground
+        style={styles.image}
+        source={require("../../assets/images/welcome-screen.jpg")}
+        resizeMode="cover">
       <View style={styles.header}>
         <Text style={styles.title}>RESTaurant</Text>
         <Text style={styles.bodyText}>
@@ -20,11 +26,7 @@ const WelcomeScreen = ({navigation }) => {
           style={styles.button}
         />
       </View>
-      <Image
-        style={styles.image}
-        source={require("../../assets/images/welcome-screen.png")}
-        resizeMode="stretch"
-      />
+      </ImageBackground>
     </View>
   );
 };
@@ -40,12 +42,16 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
     alignItems: "center",
+    marginTop: '40%'
   },
+
   image: {
     width: "100%",
+    height: '100%',
   },
+  
   title: {
     fontSize: 36,
     fontWeight: "700",

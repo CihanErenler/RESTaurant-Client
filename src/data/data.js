@@ -3,6 +3,7 @@ const apiKey =
   "9MqBJIOqNn_zy3vOm8tz-B3f9xKL_GRSipoaJ7FOuEB8bxi_N9HEPW9pSTviGD1HSD4JJUlo5XBSqmnlytotRgdg3TsA5akH_4nnUnYmjUIEtMuLig9JW9FHe-NSYXYx";
 const db_url = "http://localhost:3000/api/";
 
+
 export default getRest = {
   // Get data
   getByCity: async (city, search) => {
@@ -34,7 +35,7 @@ export default getRest = {
     return data;
   },
 
-  // Get coordiante
+  // Get coordinate
   getByCoordinate: async ({ latitude, longitude }) => {
     const radius = 3000;
     const categories = "food";
@@ -44,8 +45,9 @@ export default getRest = {
     });
     const data = await response.json();
     return data;
-  }, // Get liked restaurant list
-
+  }, 
+  
+  // Get liked restaurant list
   getLikedRest: async (token) => {
     const data = await fetch(db_url, {
       method: "GET",
@@ -54,6 +56,7 @@ export default getRest = {
     const list = await data.json();
     return list;
   },
+  
   // Post restaurant
   addLiked: async (liked, token) => {
     const response = await fetch(`${db_url}/liked`, {
@@ -64,6 +67,7 @@ export default getRest = {
     const data = await response.json();
     return data;
   },
+  
   // Register user
   registerUser: async (user) => {
     const response = await fetch(`${db_url}/user/register`, {
@@ -74,6 +78,7 @@ export default getRest = {
     const data = await response.json();
     return data;
   },
+  
   // Login user
   loginUser: async (user) => {
     const response = await fetch(`${db_url}/user/login`, {
@@ -84,11 +89,13 @@ export default getRest = {
     const data = await response.json();
     return data;
   },
+  
   // Delete restaurant by id
   deleteLiked: async (id, token) => {
     const response = await fetch(`${db_url}/liked/${id}`, {
       method: "DELETE",
       headers: { auth_token: token, "Content-type": "application/json" },
+
     });
     const data = await response.json();
     return data;
