@@ -13,7 +13,7 @@ import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
 import { Ionicons } from '@expo/vector-icons';;
 import { Entypo } from "@expo/vector-icons";
-const RestItem = ({ item, onPress}) => {
+const LikedItem = ({ item, onPress}) => {
 
 
   return (
@@ -45,7 +45,7 @@ const RestItem = ({ item, onPress}) => {
             />
           </View>
         </View>
-        <TouchableOpacity onPress={onPress.bin(this.item.id)} style={styles.heartIcon}>
+        <TouchableOpacity onPress={onPress} style={styles.heartIcon}>
            <Ionicons name="trash-outline" size={24} color="black" />
         </TouchableOpacity>
       </View>
@@ -53,7 +53,7 @@ const RestItem = ({ item, onPress}) => {
   );
 };
 
-export default RestItem;
+export default LikedItem;
 
 const styles = StyleSheet.create({
   card: {

@@ -18,35 +18,36 @@ const LikedScreen = () => {
   const [liked, setLiked] = useState(null);
 
   const fetchLiked = async () => {
-    await data.getLikedRest("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTYyYjI1ODNmZDE0ZjUzOTQyN2RjMjciLCJpYXQiOjE2MzM4NTgyMjR9.JoJHzi2rK6u6HzVi6WTMb9xGyXa8qoWwRvxK0N20NDI")
+    await data.getLikedRest()
     .then((res) => {
-      setLiked(res)
+      setLiked(res.message)
     })
     .catch((err) => console.log(err.stack));
   }
 
   useEffect(() => {
     fetchLiked(),
-    console.log(liked)
+    console.log("WE are here: " + JSON.stringify(liked))
   }, []);
+
 
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBar backgroundColor={"black"} />
       <View style={styles.textWrap}>
-        <Text style={styles.mainTitle}>This is what you liked...</Text>
+        <Text style={styles.mainTitle}>This is what you like 😍</Text>
       </View>
       {liked ? (
         <View style={styles.listWrap}>
           <FlatList
             showsVerticalScrollIndicator={false}
             data={liked}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id.toString()}
             renderItem={({ item }) => {
               return (
                 <LikedItem
                   item={item}
-                  onPress={() =>{console.log(item.id)}}
+                  onPress={() =>{console.log(item._id)}}
                 />
               );
             }}

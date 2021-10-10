@@ -12,6 +12,12 @@ const Auth = {
       callBack(false);
     }
   },
+
+  getKey: async (key) => {
+    let result = await SecureStore.getItemAsync(key);
+    return result;
+  },
+
   deleteToken: async (key) => {
     await SecureStore.deleteItemAsync(key);
   },

@@ -2,7 +2,7 @@ import Auth from "../data/auth";
 const base_url = "https://api.yelp.com/v3/businesses";
 const apiKey =
   "9MqBJIOqNn_zy3vOm8tz-B3f9xKL_GRSipoaJ7FOuEB8bxi_N9HEPW9pSTviGD1HSD4JJUlo5XBSqmnlytotRgdg3TsA5akH_4nnUnYmjUIEtMuLig9JW9FHe-NSYXYx";
-const db_url = "http://localhost:3000/api";
+const db_url = "http://192.168.38.107:3000/api";
 
 export default getRest = {
   // Get data
@@ -48,10 +48,12 @@ export default getRest = {
   },
 
   // Get liked restaurant list
-  getLikedRest: async (token) => {
+  getLikedRest: async () => {
+    const token = await Auth.getKey("user-token");
+    console.log("Token " + JSON.stringify(token))
     const data = await fetch(`${db_url}/liked`, {
       method: "GET",
-      headers: { auth_token: token },
+      headers: { "auth-token": token },
     });
     const list = await data.json();
     return list;
