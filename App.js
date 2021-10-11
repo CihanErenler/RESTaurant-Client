@@ -42,27 +42,14 @@ export default function App() {
     setSearch(cat);
   };
 
+  
+
   const handlePopularRest = () => {
     console.log(city);
     console.log(search);
-
-    let popular = [];
-    itemsToShow.forEach(item => {
-      if(item.review_count > 10) {
-        console.log("popular bee: " + item.name)
-        popular.push(item);
-      }
-    });
-
-    if (popular.length===0) {
-      Alert.alert(
-        "You are at the end of the world", 
-        "Nothing is popular here!",
-        [{text:"I understand"}]);
-        return
-      }
-    setItemsToShow(popular);
+    fetchPopular(city, search)
   }
+
 
   const handleSearch = () => {
     console.log("Entered");
@@ -80,7 +67,6 @@ export default function App() {
         .catch((err) => console.log(err.stack));
       return;
     }
-
     console.log("54. userCoordinate");
     console.log(userCoordinate);
     data.getByCoordinate(userCoordinate).then((res) => {
@@ -90,6 +76,40 @@ export default function App() {
     });
     console.log("fetch by coordinate");
   };
+
+  const fetchPopular = async (city, search) => {
+    await data
+      .getByCity(city, "food")
+      .then((res) => {
+        let popular = [];
+        let reviews = 0;
+        let len = res.businesses.length;
+
+        res.businesses.forEach(item => {
+          reviews += item.review_count
+        })
+
+        let average = reviews/len
+        
+        res.businesses.forEach(item => {
+          if(item.review_count > average) {
+            console.log("popular bee: " + item.name)
+            popular.push(item);
+          }
+        });
+        if (popular.length===0) {
+          Alert.alert(
+            "You are at the end of the world", 
+            "Nothing is popular here!",
+            [{text:"I understand"}]);
+            return
+          }
+        setRest(popular);
+        setItemsToShow(popular);
+      })
+      .catch((err) => console.log(err.stack));
+    return;
+    }
 
   const handleChangeLocation = (city) => {
     fetchData(city, search);
