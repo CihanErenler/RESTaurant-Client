@@ -22,7 +22,7 @@ const LikedItem = ({ item, onPress}) => {
         <View style={styles.imageWrap}>
           <Image
             source={
-              item.image_url
+              item.img_url
                 ? { uri: item.img_url }
                 : require("../../assets/images/placeholder.png")
             }

@@ -16,17 +16,23 @@ import SearchArea from "../components/SearchArea";
 import colors from "../helpers/colors";
 import { Ionicons } from "@expo/vector-icons";
 import Filter from "../components/Filter";
+import data from "../data/data";
 
-let isFavorite = false;
-const heartPressed = () => {
-  if (isFavorite === false) {
-    isFavorite = true;
-    console.log("Added to favorite");
-  } else {
-    isFavorite = false;
-    console.log("Removed from favorite");
-  }
-};
+const handleLiked = (restId) =>
+{
+  const likedObj =
+      {
+        rest_id: restId.id,
+        name: restId.name,
+        img_url: restId.image_url,
+        rating: restId.rating,
+        address: restId.location.address1 + " " + restId.location.city,
+      }
+
+      data.addLiked(likedObj)
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
+}
 
 function HomeScreen({
   rest,
@@ -143,7 +149,7 @@ function HomeScreen({
                   onPress={() =>
                     navigation.navigate("Details", { id: item.id })
                   }
-                  onHeartPress={heartPressed}
+                  onHeartPress={() => handleLiked(item)}
                 />
               );
             }}
