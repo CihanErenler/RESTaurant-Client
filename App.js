@@ -18,6 +18,7 @@ export default function App() {
   const [loggedIn, setloggedIn] = useState(false);
   const [userCoordinate, setUserCoordinate] = useState();
   const [fetchingType, setFetchingType] = useState("default"); // 'default', 'coordinate' look fetchData()
+  const [liked, setLiked] = useState([]);
 
   useEffect(() => {
     handleIfUserLoggedIn()
@@ -115,6 +116,47 @@ export default function App() {
     fetchData(city, search);
   };
 
+  const handleLiked = (restId) =>
+  {
+    const likedObj =
+        {
+          rest_id: restId.id,
+          name: restId.name,
+          img_url: restId.image_url,
+          rating: restId.rating,
+          address: restId.location.address1 + " " + restId.location.city,
+        }
+
+    data.addLiked(likedObj)
+        .then((res) => setLiked([res.message, ...liked]))
+        .catch((err) => console.log(err));
+  }
+
+  const fetchLiked = async () => {
+    await data.getLikedRest()
+        .then((res) => {
+          console.log("RES: " + JSON.stringify(res));
+          setLiked(res.message)
+        })
+        .catch((err) => console.log(err.stack));
+  }
+
+  useEffect(() => {
+    fetchLiked(),
+        console.log("WE are here: " + JSON.stringify(liked))
+  }, []);
+
+  const deleteLikedItem = id =>
+  {
+    console.log("ID: " + id);
+    data.deleteLiked(id).then((res) => {
+        if(res.success === 1)
+    {const newList = liked.filter(item => item.id !== id)
+        console.log("NEW LIST: " + newList)
+        setLiked(newList)}})
+  .catch((err) => console.log(err));
+  }
+
   // local storage
 
   if (!loggedIn) {
@@ -141,6 +183,9 @@ export default function App() {
       setUserCoordinate={setUserCoordinate}
       setFetchingType={setFetchingType}
       setloggedIn={setloggedIn}
+      handleLiked={handleLiked}
+      liked={liked}
+      deleteLiked={deleteLikedItem}
     />
   );
 }

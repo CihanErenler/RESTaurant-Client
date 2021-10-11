@@ -14,26 +14,7 @@ import spacings from "../helpers/spacings";
 import colors from "../helpers/colors";
 import data from "../data/data";
 
-const LikedScreen = () => {
-  const [liked, setLiked] = useState([]);
-
-  const fetchLiked = async () => {
-    await data.getLikedRest()
-    .then((res) => {
-      console.log("RES: " + JSON.stringify(res));
-      setLiked(res.message)
-    })
-    .catch((err) => console.log(err.stack));
-  }
-
-  useEffect(() => {
-    fetchLiked(),
-    console.log("WE are here: " + JSON.stringify(liked))
-  }, []);
-
-  const deleteLikedItem = id => {
-    data.deleteLiked(id);
-  }
+const LikedScreen = ({liked, deleteLikedItem}) => {
 
   return (
     <SafeAreaView style={styles.screen}>

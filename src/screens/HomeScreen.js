@@ -16,23 +16,6 @@ import SearchArea from "../components/SearchArea";
 import colors from "../helpers/colors";
 import { Ionicons } from "@expo/vector-icons";
 import Filter from "../components/Filter";
-import data from "../data/data";
-
-const handleLiked = (restId) =>
-{
-  const likedObj =
-      {
-        rest_id: restId.id,
-        name: restId.name,
-        img_url: restId.image_url,
-        rating: restId.rating,
-        address: restId.location.address1 + " " + restId.location.city,
-      }
-
-      data.addLiked(likedObj)
-          .then((res) => console.log(res))
-          .catch((err) => console.log(err));
-}
 
 function HomeScreen({
   rest,
@@ -48,6 +31,7 @@ function HomeScreen({
   city,
   setCity,
   onLocation,
+  handleLiked
 }) {
   const [asc, setAsc] = useState(false);
   const [desc, setDesc] = useState(false);

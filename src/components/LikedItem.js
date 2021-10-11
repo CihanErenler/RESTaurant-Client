@@ -14,8 +14,6 @@ import customStyles from "../helpers/styles";
 import { EvilIcons } from '@expo/vector-icons';
 import { Entypo } from "@expo/vector-icons";
 const LikedItem = ({ item, onPress}) => {
-
-
   return (
     <View style={{ marginHorizontal: 20 }}>
       <View style={styles.card}>

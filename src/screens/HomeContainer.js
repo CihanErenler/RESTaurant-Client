@@ -21,6 +21,7 @@ const HomeContainer = (props) => {
     city,
     setCity,
     onLocation,
+    handleLiked
   } = props;
   return (
     <Stack.Navigator>
@@ -45,6 +46,7 @@ const HomeContainer = (props) => {
             city={city}
             setCity={setCity}
             onLocation={onLocation}
+            handleLiked={handleLiked}
           />
         )}
       </Stack.Screen>
