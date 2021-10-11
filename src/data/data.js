@@ -2,7 +2,7 @@ import Auth from "../data/auth";
 const base_url = "https://api.yelp.com/v3/businesses";
 const apiKey =
   "9MqBJIOqNn_zy3vOm8tz-B3f9xKL_GRSipoaJ7FOuEB8bxi_N9HEPW9pSTviGD1HSD4JJUlo5XBSqmnlytotRgdg3TsA5akH_4nnUnYmjUIEtMuLig9JW9FHe-NSYXYx";
-const db_url = "http://192.168.38.107:3000/api";
+const db_url = "http://localhost:3000/api";
 
 export default getRest = {
   // Get data
@@ -109,6 +109,29 @@ export default getRest = {
     });
     const data = await response.json();
     console.log("We came to deleting " + "ID: " + id + "Data: " + JSON.stringify(data))
+    return data;
+  },
+
+  // get profile
+  getProfile: async () => {
+    const token = await Auth.getValueFor('user-token')
+    const response = await fetch(`${db_url}/user/me`, {
+      method: "GET",
+      headers: { 'auth-token': token, "Content-type": "application/json" },
+    });
+    const data = await response.json();
+    return data.user;
+  },
+
+  // update profile
+  updateProfile: async (profile) => {
+    const token = await Auth.getValueFor('user-token')
+    const response = await fetch(`${db_url}/user`, {
+      method: "PUT",
+      headers: { 'auth-token': token, "Content-type": "application/json" },
+      body: JSON.stringify(profile)
+    });
+    const data = await response.json();
     return data;
   },
 };

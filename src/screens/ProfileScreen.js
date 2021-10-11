@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Dimensions,
   Image,
   ScrollView,
@@ -11,28 +12,32 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import Button from "../components/Button";
 import colors from "../helpers/colors";
+import data from "../data/data"
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ navigation, route }) => {
   const [editMode, seteditMode] = useState(false);
   const [profile, setprofile] = useState({});
-  // const [name, setname] = useState()
   const [city, setcity] = useState();
   const [email, setemail] = useState();
   const [favorite, setfavorite] = useState();
+  const [fetching, setfetching] = useState(false)
 
   const icon = (name) => {
     return <AntDesign name={name} size={16} color="white" />;
   };
 
-  const getProfile = () => {
+  const getProfile = async () => {
+    const user = await data.getProfile()
+
     setprofile({
       picture:
         "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-      name: "Peperoni Pizza",
-      city: "Tampere",
-      email: "email@email.com",
-      favorite: "Pizza of course",
+      name: `${user.name} ${user.lastname}`,
+      city: user.city,
+      email: user.email,
+      favorite: user.fav_food,
     });
+    setfetching(false)
   };
 
   const init = () => {
@@ -42,15 +47,22 @@ const ProfileScreen = ({ navigation }) => {
   };
 
   const updateHandler = () => {
-    setprofile({
-      picture:
-        "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-      name: "Peperoni Pizza",
-      city: city,
-      email: email,
-      favorite: favorite,
-    });
-    seteditMode(false);
+    const user = {
+        city: city,
+        email: email,
+        fav_food: favorite,
+    }
+
+    data.updateProfile(user)
+      .then(res => {
+        seteditMode(false)
+        if (res.success===1) return setfetching(true)
+        return Alert.alert(
+          'Update error',
+          'Error when updating profile',
+          [{text: 'ok'}]
+        )
+      })
   };
 
   const reset = () => {
@@ -63,6 +75,16 @@ const ProfileScreen = ({ navigation }) => {
     navigation.setOptions({ tabBarHideOnKeyboard: true });
     getProfile();
   }, []);
+
+  useEffect(() => {
+    navigation.addListener('tabPress', (e) => {
+      setfetching(true)
+    })
+  }, [navigation]);
+
+  useEffect(() => {
+    if (fetching) getProfile()
+  }, [fetching]);
 
   useEffect(() => {
     init();

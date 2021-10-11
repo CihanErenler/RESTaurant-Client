@@ -20,12 +20,7 @@ export default function App() {
   const [fetchingType, setFetchingType] = useState("default"); // 'default', 'coordinate' look fetchData()
 
   useEffect(() => {
-    fetchData(city, search);
-    Auth.getValueFor("user-token", setloggedIn);
-  }, []);
-
-  useEffect(() => {
-    Auth.getValueFor("user-token", setloggedIn);
+    handleIfUserLoggedIn()
   }, [loggedIn]);
 
   useEffect(() => {
@@ -36,13 +31,18 @@ export default function App() {
     if (userCoordinate) fetchData(city, category);
   }, [userCoordinate]);
 
+  const handleIfUserLoggedIn = async () => {
+    const token = await Auth.getValueFor("user-token");
+    if (token) return setloggedIn(true)
+  }
+
   const handlePressedCategory = (cat) => {
     console.log("you are here " + cat);
     setCategory(cat);
     setSearch(cat);
   };
 
-  
+
 
   const handlePopularRest = () => {
     console.log(city);
@@ -57,6 +57,7 @@ export default function App() {
   };
 
   const fetchData = async (city, search) => {
+    console.log("fetchData accesed")
     if (fetchingType === "default") {
       await data
         .getByCity(city, search)
@@ -67,8 +68,7 @@ export default function App() {
         .catch((err) => console.log(err.stack));
       return;
     }
-    console.log("54. userCoordinate");
-    console.log(userCoordinate);
+
     data.getByCoordinate(userCoordinate).then((res) => {
       setRest(res.businesses);
       setItemsToShow(res.businesses);
@@ -90,7 +90,7 @@ export default function App() {
         })
 
         let average = reviews/len
-        
+
         res.businesses.forEach(item => {
           if(item.review_count > average) {
             console.log("popular bee: " + item.name)
@@ -99,7 +99,7 @@ export default function App() {
         });
         if (popular.length===0) {
           Alert.alert(
-            "You are at the end of the world", 
+            "You are at the end of the world",
             "Nothing is popular here!",
             [{text:"I understand"}]);
             return
