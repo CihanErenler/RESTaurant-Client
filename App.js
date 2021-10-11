@@ -144,15 +144,15 @@ export default function App() {
   useEffect(() => {
     fetchLiked(),
         console.log("WE are here: " + JSON.stringify(liked))
-  }, []);
+  }, [loggedIn]);
 
   const deleteLikedItem = id =>
   {
     console.log("ID: " + id);
     data.deleteLiked(id).then((res) => {
-        if(res.success === 1)
-    {const newList = liked.filter(item => item.id !== id)
-        console.log("NEW LIST: " + newList)
+        if(res === 204)
+    {const newList = liked.filter(item => item._id !== id)
+        console.log("NEW LIST: " + JSON.stringify(newList))
         setLiked(newList)}})
   .catch((err) => console.log(err));
   }

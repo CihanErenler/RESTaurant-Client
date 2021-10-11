@@ -109,8 +109,9 @@ export default getRest = {
       method: "DELETE",
       headers: { "auth-token": token, "Content-type": "application/json" },
     });
-    const data = await response.json();
-    console.log("We came to deleting " + "ID: " + id + "Data: " + JSON.stringify(data))
+    console.log("RESPONSE: " + JSON.stringify(response));
+    const data = await response.status;
+    console.log("We came to deleting " + "ID: " + id + " Data: " + JSON.stringify(data))
     return data;
   },
 
