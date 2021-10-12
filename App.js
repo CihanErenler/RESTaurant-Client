@@ -19,24 +19,29 @@ export default function App() {
   const [userCoordinate, setUserCoordinate] = useState();
   const [fetchingType, setFetchingType] = useState("default"); // 'default', 'coordinate' look fetchData()
   const [liked, setLiked] = useState([]);
-
+  const [tokenReceived, settokenReceived] = useState(false)
+  
   useEffect(() => {
     handleIfUserLoggedIn();
   }, [loggedIn]);
-
+  
   useEffect(() => {
     fetchData(city, category);
   }, [category]);
-
+  
   useEffect(() => {
     if (userCoordinate) fetchData(city, category);
   }, [userCoordinate]);
 
+  useEffect(() => {
+    if (tokenReceived) fetchLiked()
+  }, [tokenReceived]);
+  
   const handleIfUserLoggedIn = async () => {
     const token = await Auth.getValueFor("user-token");
-    if (token) return setloggedIn(true);
+    if (token) return settokenReceived(true);
   };
-
+  
   const handlePressedCategory = (cat) => {
     setCategory(cat);
     setSearch(cat);
@@ -45,7 +50,6 @@ export default function App() {
   const handlePopularRest = () => {
     fetchPopular(city, search)
   }
-
 
   const handleSearch = () => {
     fetchData(city, search);
@@ -157,10 +161,6 @@ export default function App() {
       })
       .catch((err) => console.log(err));
   };
-
-  useEffect(() => {
-    fetchLiked()
-  }, [loggedIn]);
 
   // local storage
 
