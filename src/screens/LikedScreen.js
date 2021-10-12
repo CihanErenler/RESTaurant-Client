@@ -14,46 +14,32 @@ import spacings from "../helpers/spacings";
 import colors from "../helpers/colors";
 import data from "../data/data";
 
-const LikedScreen = () => {
-  const [liked, setLiked] = useState(null);
-
-  const fetchLiked = async () => {
-    await data.getLikedRest("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTYyYjI1ODNmZDE0ZjUzOTQyN2RjMjciLCJpYXQiOjE2MzM4NTgyMjR9.JoJHzi2rK6u6HzVi6WTMb9xGyXa8qoWwRvxK0N20NDI")
-    .then((res) => {
-      setLiked(res)
-    })
-    .catch((err) => console.log(err.stack));
-  }
-
-  useEffect(() => {
-    fetchLiked(),
-    console.log(liked)
-  }, []);
+const LikedScreen = ({liked, deleteLikedItem}) => {
 
   return (
     <SafeAreaView style={styles.screen}>
       <StatusBar backgroundColor={"black"} />
       <View style={styles.textWrap}>
-        <Text style={styles.mainTitle}>This is what you liked...</Text>
+        <Text style={styles.mainTitle}>This is what you like 😍</Text>
       </View>
       {liked ? (
         <View style={styles.listWrap}>
           <FlatList
             showsVerticalScrollIndicator={false}
             data={liked}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id.toString()}
             renderItem={({ item }) => {
               return (
                 <LikedItem
                   item={item}
-                  onPress={() =>{console.log(item.id)}}
+                  onPress={deleteLikedItem}
                 />
               );
             }}
           />
         </View>
       ) : (
-        <Text>Loading...</Text>
+        <Text>You liked nothing :(</Text>
       )}
     </SafeAreaView>
   );

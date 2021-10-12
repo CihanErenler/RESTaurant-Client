@@ -29,6 +29,7 @@ const TabNav = (props) => {
     setCity,
     handleSearch,
     handleCat,
+    handlePopular,
     categories,
     showModal,
     setShowModal,
@@ -38,6 +39,9 @@ const TabNav = (props) => {
     setUserCoordinate,
     setFetchingType,
     setloggedIn,
+    handleLiked,
+    liked,
+    deleteLiked
   } = props;
   return (
     <NavigationContainer>
@@ -78,6 +82,7 @@ const TabNav = (props) => {
               city={city}
               setCity={setCity}
               onLocation={onLocation}
+              handleLiked={handleLiked}
             />
           )}
         </Tab.Screen>
@@ -107,6 +112,7 @@ const TabNav = (props) => {
               {...props}
               categories={categories}
               onMoveBack={handleCat}
+              onShowPopular={handlePopular}
               setUserCoordinate={setUserCoordinate}
               setFetchingType={setFetchingType}
             />
@@ -114,7 +120,6 @@ const TabNav = (props) => {
         </Tab.Screen>
         <Tab.Screen
           name="Liked"
-          component={LikedScreen}
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -133,7 +138,9 @@ const TabNav = (props) => {
               );
             },
           }}
-        />
+        >
+            {(props) => <LikedScreen {...props} liked={liked} deleteLikedItem={deleteLiked} />}
+        </Tab.Screen>
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}

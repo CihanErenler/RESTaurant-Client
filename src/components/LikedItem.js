@@ -11,18 +11,16 @@ import { Rating } from "react-native-ratings";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
-import { Ionicons } from '@expo/vector-icons';;
+import { EvilIcons } from '@expo/vector-icons';
 import { Entypo } from "@expo/vector-icons";
-const RestItem = ({ item, onPress}) => {
-
-
+const LikedItem = ({ item, onPress}) => {
   return (
     <View style={{ marginHorizontal: 20 }}>
       <View style={styles.card}>
         <View style={styles.imageWrap}>
           <Image
             source={
-              item.image_url
+              item.img_url
                 ? { uri: item.img_url }
                 : require("../../assets/images/placeholder.png")
             }
@@ -45,15 +43,15 @@ const RestItem = ({ item, onPress}) => {
             />
           </View>
         </View>
-        <TouchableOpacity onPress={onPress.bin(this.item.id)} style={styles.heartIcon}>
-           <Ionicons name="trash-outline" size={24} color="black" />
+        <TouchableOpacity onPress={onPress.bind(this, item._id)}>
+            <EvilIcons name="trash" size={30} color={colors.primary} />
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default RestItem;
+export default LikedItem;
 
 const styles = StyleSheet.create({
   card: {
@@ -69,6 +67,7 @@ const styles = StyleSheet.create({
   },
   details: {
     alignItems: "flex-start",
+    justifyContent: 'center',
     flex: 1,
     height: "100%",
     paddingHorizontal: spacings.s12,
@@ -90,10 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: "bold",
   },
-  heartIcon: {
-    right: spacings.s12,
-    bottom: spacings.s30,
-  },
+
   rating: {
     width: "100%",
     alignItems: "flex-start",

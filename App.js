@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import data from "./src/data/data";
 import categories from "./src/data/categories";
@@ -18,14 +18,10 @@ export default function App() {
   const [loggedIn, setloggedIn] = useState(false);
   const [userCoordinate, setUserCoordinate] = useState();
   const [fetchingType, setFetchingType] = useState("default"); // 'default', 'coordinate' look fetchData()
+  const [liked, setLiked] = useState([]);
 
   useEffect(() => {
-    fetchData(city, search);
-    Auth.getValueFor("user-token", setloggedIn);
-  }, []);
-
-  useEffect(() => {
-    Auth.getValueFor("user-token", setloggedIn);
+    handleIfUserLoggedIn()
   }, [loggedIn]);
 
   useEffect(() => {
@@ -36,11 +32,25 @@ export default function App() {
     if (userCoordinate) fetchData(city, category);
   }, [userCoordinate]);
 
+  const handleIfUserLoggedIn = async () => {
+    const token = await Auth.getValueFor("user-token");
+    if (token) return setloggedIn(true)
+  }
+
   const handlePressedCategory = (cat) => {
     console.log("you are here " + cat);
     setCategory(cat);
     setSearch(cat);
   };
+
+
+
+  const handlePopularRest = () => {
+    console.log(city);
+    console.log(search);
+    fetchPopular(city, search)
+  }
+
 
   const handleSearch = () => {
     console.log("Entered");
@@ -48,6 +58,7 @@ export default function App() {
   };
 
   const fetchData = async (city, search) => {
+    console.log("fetchData accesed")
     if (fetchingType === "default") {
       await data
         .getByCity(city, search)
@@ -59,8 +70,6 @@ export default function App() {
       return;
     }
 
-    console.log("54. userCoordinate");
-    console.log(userCoordinate);
     data.getByCoordinate(userCoordinate).then((res) => {
       setRest(res.businesses);
       setItemsToShow(res.businesses);
@@ -69,9 +78,84 @@ export default function App() {
     console.log("fetch by coordinate");
   };
 
+  const fetchPopular = async (city, search) => {
+    await data
+      .getByCity(city, "food")
+      .then((res) => {
+        let popular = [];
+        let reviews = 0;
+        let len = res.businesses.length;
+
+        res.businesses.forEach(item => {
+          reviews += item.review_count
+        })
+
+        let average = reviews/len
+
+        res.businesses.forEach(item => {
+          if(item.review_count > average) {
+            console.log("popular bee: " + item.name)
+            popular.push(item);
+          }
+        });
+        if (popular.length===0) {
+          Alert.alert(
+            "You are at the end of the world",
+            "Nothing is popular here!",
+            [{text:"I understand"}]);
+            return
+          }
+        setRest(popular);
+        setItemsToShow(popular);
+      })
+      .catch((err) => console.log(err.stack));
+    return;
+    }
+
   const handleChangeLocation = (city) => {
     fetchData(city, search);
   };
+
+  const handleLiked = (restId) =>
+  {
+    const likedObj =
+        {
+          rest_id: restId.id,
+          name: restId.name,
+          img_url: restId.image_url,
+          rating: restId.rating,
+          address: restId.location.address1 + " " + restId.location.city,
+        }
+
+    data.addLiked(likedObj)
+        .then((res) => setLiked([res.message, ...liked]))
+        .catch((err) => console.log(err));
+  }
+
+  const fetchLiked = async () => {
+    await data.getLikedRest()
+        .then((res) => {
+          console.log("RES: " + JSON.stringify(res));
+          setLiked(res.message)
+        })
+        .catch((err) => console.log(err.stack));
+  }
+
+  useEffect(() => {
+    fetchLiked(),
+        console.log("WE are here: " + JSON.stringify(liked))
+  }, [loggedIn]);
+
+  const deleteLikedItem = id =>
+  {
+    console.log("ID: " + id);
+    data.deleteLiked(id).then((res) => {
+        if(res === 204)
+    {const newList = liked.filter(item => item._id !== id)
+        console.log("NEW LIST: " + JSON.stringify(newList))
+        setLiked(newList)}})
+  .catch((err) => console.log(err));
+  }
 
   // local storage
 
@@ -89,6 +173,7 @@ export default function App() {
       setCity={setCity}
       handleSearch={handleSearch}
       handleCat={handlePressedCategory}
+      handlePopular={handlePopularRest}
       categories={categories}
       showModal={showModal}
       setShowModal={setShowModal}
@@ -98,6 +183,9 @@ export default function App() {
       setUserCoordinate={setUserCoordinate}
       setFetchingType={setFetchingType}
       setloggedIn={setloggedIn}
+      handleLiked={handleLiked}
+      liked={liked}
+      deleteLiked={deleteLikedItem}
     />
   );
 }

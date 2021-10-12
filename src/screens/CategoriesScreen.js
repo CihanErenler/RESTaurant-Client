@@ -18,6 +18,7 @@ const Categories = ({
   categories,
   navigation,
   onMoveBack,
+  onShowPopular,
   setUserCoordinate,
   setFetchingType,
 }) => {
@@ -36,6 +37,11 @@ const Categories = ({
     navigation.navigate("Home");
   };
 
+  const showPopular = () => {
+    navigation.navigate("Home");
+    onShowPopular();
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.cattitle}>Choose a category...</Text>
@@ -44,6 +50,7 @@ const Categories = ({
         subtitle="See what's trending now"
         color={colors.accent}
         icon="heart"
+        onPress={showPopular}
       />
       <CatBtns
         title="Near you"

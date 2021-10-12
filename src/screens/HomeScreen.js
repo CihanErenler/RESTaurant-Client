@@ -17,17 +17,6 @@ import colors from "../helpers/colors";
 import { Ionicons } from "@expo/vector-icons";
 import Filter from "../components/Filter";
 
-let isFavorite = false;
-const heartPressed = () => {
-  if (isFavorite === false) {
-    isFavorite = true;
-    console.log("Added to favorite");
-  } else {
-    isFavorite = false;
-    console.log("Removed from favorite");
-  }
-};
-
 function HomeScreen({
   rest,
   search,
@@ -42,6 +31,7 @@ function HomeScreen({
   city,
   setCity,
   onLocation,
+  handleLiked
 }) {
   const [asc, setAsc] = useState(false);
   const [desc, setDesc] = useState(false);
@@ -143,7 +133,7 @@ function HomeScreen({
                   onPress={() =>
                     navigation.navigate("Details", { id: item.id })
                   }
-                  onHeartPress={heartPressed}
+                  onHeartPress={() => handleLiked(item)}
                 />
               );
             }}
