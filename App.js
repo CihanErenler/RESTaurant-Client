@@ -145,7 +145,6 @@ export default function App() {
 
   const deleteLikedItem = (id) => {
     const likedItem = liked.find((item) => item.rest_id === id);
-    console.log(likedItem._id);
     console.log("ID: " + id);
     if (likedItem !== undefined) {
       data
