@@ -34,7 +34,10 @@ export default function App() {
   }, [userCoordinate]);
 
   useEffect(() => {
-    if (tokenReceived) fetchLiked()
+    if (tokenReceived) {
+      fetchLiked()
+      settokenReceived(false)
+    }
   }, [tokenReceived]);
   
   const handleIfUserLoggedIn = async () => {
