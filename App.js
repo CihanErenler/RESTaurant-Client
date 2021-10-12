@@ -115,10 +115,12 @@ export default function App() {
         {
           rest_id: restId.id,
           name: restId.name,
-          img_url: restId.image_url,
+          img_url: restId.image_url ? restId.image_url : "Default",
           rating: restId.rating,
           address: restId.location.address1 + " " + restId.location.city,
         }
+
+     // restId.img_url ? likedObj.img_url = restId.image_url
 
     data.addLiked(likedObj)
         .then((res) => setLiked([res.message, ...liked]))

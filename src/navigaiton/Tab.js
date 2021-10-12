@@ -16,6 +16,7 @@ import SettingsScreen from "../screens/SettingsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import HomeContainer from "../screens/HomeContainer";
 import LikedScreen from "../screens/LikedScreen";
+import LikedContainer from "../screens/LikedContainer";
 
 const Tab = createBottomTabNavigator();
 
@@ -119,7 +120,7 @@ const TabNav = (props) => {
           )}
         </Tab.Screen>
         <Tab.Screen
-          name="Liked"
+          name="LikedContainer"
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -139,7 +140,7 @@ const TabNav = (props) => {
             },
           }}
         >
-            {(props) => <LikedScreen {...props} liked={liked} deleteLikedItem={deleteLiked} />}
+            {(props) => <LikedContainer {...props} liked={liked} deleteLikedItem={deleteLiked} />}
         </Tab.Screen>
         <Tab.Screen
           name="Profile"

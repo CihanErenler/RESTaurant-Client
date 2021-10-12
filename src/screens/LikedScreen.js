@@ -14,7 +14,7 @@ import spacings from "../helpers/spacings";
 import colors from "../helpers/colors";
 import data from "../data/data";
 
-const LikedScreen = ({liked, deleteLikedItem}) => {
+const LikedScreen = ({liked, deleteLikedItem, navigation}) => {
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -33,6 +33,7 @@ const LikedScreen = ({liked, deleteLikedItem}) => {
                 <LikedItem
                   item={item}
                   onPress={deleteLikedItem}
+                  likedItemDetails={()=>navigation.navigate("Details", { id: item.rest_id})}
                 />
               );
             }}

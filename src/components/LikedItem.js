@@ -13,14 +13,14 @@ import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
 import { EvilIcons } from '@expo/vector-icons';
 import { Entypo } from "@expo/vector-icons";
-const LikedItem = ({ item, onPress}) => {
+const LikedItem = ({ item, onPress, likedItemDetails}) => {
   return (
     <View style={{ marginHorizontal: 20 }}>
-      <View style={styles.card}>
+      <TouchableOpacity style={styles.card} onPress={likedItemDetails}>
         <View style={styles.imageWrap}>
           <Image
             source={
-              item.img_url
+              item.img_url !== "Default"
                 ? { uri: item.img_url }
                 : require("../../assets/images/placeholder.png")
             }
@@ -46,7 +46,7 @@ const LikedItem = ({ item, onPress}) => {
         <TouchableOpacity onPress={onPress.bind(this, item._id)}>
             <EvilIcons name="trash" size={30} color={colors.primary} />
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
