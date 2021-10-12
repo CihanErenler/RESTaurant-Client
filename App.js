@@ -38,7 +38,6 @@ export default function App() {
   }
 
   const handlePressedCategory = (cat) => {
-    console.log("you are here " + cat);
     setCategory(cat);
     setSearch(cat);
   };
@@ -46,19 +45,15 @@ export default function App() {
 
 
   const handlePopularRest = () => {
-    console.log(city);
-    console.log(search);
     fetchPopular(city, search)
   }
 
 
   const handleSearch = () => {
-    console.log("Entered");
     fetchData(city, search);
   };
 
   const fetchData = async (city, search) => {
-    console.log("fetchData accesed")
     if (fetchingType === "default") {
       await data
         .getByCity(city, search)
@@ -75,7 +70,6 @@ export default function App() {
       setItemsToShow(res.businesses);
       setFetchingType("default");
     });
-    console.log("fetch by coordinate");
   };
 
   const fetchPopular = async (city, search) => {
@@ -94,7 +88,6 @@ export default function App() {
 
         res.businesses.forEach(item => {
           if(item.review_count > average) {
-            console.log("popular bee: " + item.name)
             popular.push(item);
           }
         });
@@ -135,24 +128,20 @@ export default function App() {
   const fetchLiked = async () => {
     await data.getLikedRest()
         .then((res) => {
-          console.log("RES: " + JSON.stringify(res));
           setLiked(res.message)
         })
         .catch((err) => console.log(err.stack));
   }
 
   useEffect(() => {
-    fetchLiked(),
-        console.log("WE are here: " + JSON.stringify(liked))
+    fetchLiked()
   }, [loggedIn]);
 
   const deleteLikedItem = id =>
   {
-    console.log("ID: " + id);
     data.deleteLiked(id).then((res) => {
         if(res === 204)
     {const newList = liked.filter(item => item._id !== id)
-        console.log("NEW LIST: " + JSON.stringify(newList))
         setLiked(newList)}})
   .catch((err) => console.log(err));
   }

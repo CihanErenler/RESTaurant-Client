@@ -44,7 +44,6 @@ const SettingsScreen = ({ setloggedIn }) => {
           text="Log out"
           style={styles.button}
           onPress={() => {
-            console.log("I am here");
             Auth.deleteToken("user-token");
             setloggedIn(false);
           }}

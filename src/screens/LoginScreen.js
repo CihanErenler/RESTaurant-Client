@@ -111,7 +111,6 @@ const LoginScreen = ({ loggedIn, setloggedIn }) => {
 
     if (login.email === "" || login.password === "") return alert.emptyField();
 
-    console.log(login);
 
     data
       .loginUser(login)

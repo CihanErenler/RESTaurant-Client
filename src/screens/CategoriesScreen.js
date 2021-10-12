@@ -31,7 +31,6 @@ const Categories = ({
     const {
       coords: { latitude, longitude },
     } = await Location.getUserLocation();
-    // console.log(latitude, longitude)
     setFetchingType("coordinate");
     setUserCoordinate({ latitude, longitude });
     navigation.navigate("Home");

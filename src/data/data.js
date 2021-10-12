@@ -2,7 +2,7 @@ import Auth from "../data/auth";
 const base_url = "https://api.yelp.com/v3/businesses";
 const apiKey =
   "9MqBJIOqNn_zy3vOm8tz-B3f9xKL_GRSipoaJ7FOuEB8bxi_N9HEPW9pSTviGD1HSD4JJUlo5XBSqmnlytotRgdg3TsA5akH_4nnUnYmjUIEtMuLig9JW9FHe-NSYXYx";
-const db_url = "http://192.168.1.150:3000/api";
+const db_url = "https://restaurant-328707.uc.r.appspot.com/api";
 
 export default getRest = {
   // Get data
@@ -61,7 +61,6 @@ export default getRest = {
   // Post restaurant
   addLiked: async (liked) => {
     const token = await Auth.getKey("user-token");
-    console.log("Token: " + JSON.stringify(token));
     const response = await fetch(`${db_url}/liked`, {
       method: "POST",
       headers: { "auth-token": token, "Content-type": "application/json" },
@@ -104,14 +103,11 @@ export default getRest = {
   // Delete restaurant by id
   deleteLiked: async (id) => {
     const token = await Auth.getKey("user-token");
-    console.log("Deleting Token " + JSON.stringify(token))
     const response = await fetch(`${db_url}/liked/${id}`, {
       method: "DELETE",
       headers: { "auth-token": token, "Content-type": "application/json" },
     });
-    console.log("RESPONSE: " + JSON.stringify(response));
     const data = await response.status;
-    console.log("We came to deleting " + "ID: " + id + " Data: " + JSON.stringify(data))
     return data;
   },
 

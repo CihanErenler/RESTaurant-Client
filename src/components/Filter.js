@@ -41,7 +41,6 @@ const Filter = ({
       (val) => val.city.toLowerCase().indexOf(value.toLowerCase()) > -1
     );
     setCitiesToShow(newList);
-    console.log(newList);
   };
 
   const handleLocation = (value) => {
