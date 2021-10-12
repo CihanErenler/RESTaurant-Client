@@ -42,7 +42,7 @@ const TabNav = (props) => {
     setloggedIn,
     handleLiked,
     liked,
-    deleteLiked
+    deleteLiked,
   } = props;
   return (
     <NavigationContainer>
@@ -84,6 +84,8 @@ const TabNav = (props) => {
               setCity={setCity}
               onLocation={onLocation}
               handleLiked={handleLiked}
+              liked={liked}
+              deleteLiked={deleteLiked}
             />
           )}
         </Tab.Screen>

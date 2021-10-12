@@ -31,7 +31,9 @@ function HomeScreen({
   city,
   setCity,
   onLocation,
-  handleLiked
+  handleLiked,
+  liked,
+  deleteLiked,
 }) {
   const [asc, setAsc] = useState(false);
   const [desc, setDesc] = useState(false);
@@ -87,6 +89,11 @@ function HomeScreen({
     setAsc(false);
   };
 
+  const check = (liked, id) => {
+    const item = liked.find((i) => i.rest_id === id);
+    return item !== undefined;
+  };
+
   // Filter by price
   const filter = () => {
     const lowest = rest.filter((item) => item.price === "€");
@@ -129,6 +136,8 @@ function HomeScreen({
             renderItem={({ item }) => {
               return (
                 <RestItem
+                  isLiked={check(liked, item.id)}
+                  deleteLiked={deleteLiked}
                   item={item}
                   onPress={() =>
                     navigation.navigate("Details", { id: item.id })

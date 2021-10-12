@@ -21,7 +21,7 @@ export default function App() {
   const [liked, setLiked] = useState([]);
 
   useEffect(() => {
-    handleIfUserLoggedIn()
+    handleIfUserLoggedIn();
   }, [loggedIn]);
 
   useEffect(() => {
@@ -34,15 +34,13 @@ export default function App() {
 
   const handleIfUserLoggedIn = async () => {
     const token = await Auth.getValueFor("user-token");
-    if (token) return setloggedIn(true)
-  }
+    if (token) return setloggedIn(true);
+  };
 
   const handlePressedCategory = (cat) => {
     setCategory(cat);
     setSearch(cat);
   };
-
-
 
   const handlePopularRest = () => {
     fetchPopular(city, search)
@@ -80,30 +78,31 @@ export default function App() {
         let reviews = 0;
         let len = res.businesses.length;
 
-        res.businesses.forEach(item => {
-          reviews += item.review_count
-        })
+        res.businesses.forEach((item) => {
+          reviews += item.review_count;
+        });
 
-        let average = reviews/len
+        let average = reviews / len;
 
         res.businesses.forEach(item => {
           if(item.review_count > average) {
             popular.push(item);
           }
         });
-        if (popular.length===0) {
+        if (popular.length === 0) {
           Alert.alert(
             "You are at the end of the world",
             "Nothing is popular here!",
-            [{text:"I understand"}]);
-            return
-          }
+            [{ text: "I understand" }]
+          );
+          return;
+        }
         setRest(popular);
         setItemsToShow(popular);
       })
       .catch((err) => console.log(err.stack));
     return;
-    }
+  };
 
   const handleChangeLocation = (city) => {
     fetchData(city, search);
@@ -120,33 +119,48 @@ export default function App() {
           address: restId.location.address1 + " " + restId.location.city,
         }
 
-     // restId.img_url ? likedObj.img_url = restId.image_url
-
     data.addLiked(likedObj)
         .then((res) => setLiked([res.message, ...liked]))
         .catch((err) => console.log(err));
   }
 
   const fetchLiked = async () => {
-    await data.getLikedRest()
+    await data
+      .getLikedRest()
+      .then((res) => {
+        setLiked(res.message);
+      })
+      .catch((err) => console.log(err.stack));
+  };
+
+  const deleteLikedItem = (id) => {
+    const likedItem = liked.find((item) => item.rest_id === id);
+    if (likedItem !== undefined) {
+      data
+        .deleteLiked(likedItem._id)
         .then((res) => {
-          setLiked(res.message)
+          if (res === 204) {
+            const newList = liked.filter((item) => item._id !== likedItem._id);
+            setLiked(newList);
+          }
         })
-        .catch((err) => console.log(err.stack));
-  }
+        .catch((err) => console.log(err));
+      return;
+    }
+    data
+      .deleteLiked(id)
+      .then((res) => {
+        if (res === 204) {
+          const newList = liked.filter((item) => item._id !== id);
+          setLiked(newList);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
     fetchLiked()
   }, [loggedIn]);
-
-  const deleteLikedItem = id =>
-  {
-    data.deleteLiked(id).then((res) => {
-        if(res === 204)
-    {const newList = liked.filter(item => item._id !== id)
-        setLiked(newList)}})
-  .catch((err) => console.log(err));
-  }
 
   // local storage
 
