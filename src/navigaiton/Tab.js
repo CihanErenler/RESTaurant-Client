@@ -143,7 +143,7 @@ const TabNav = (props) => {
           }}
         >
           {(props) => (
-            <LikedScreen
+            <LikedContainer
               {...props}
               liked={liked}
               deleteLikedItem={deleteLiked}
