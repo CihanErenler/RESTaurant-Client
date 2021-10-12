@@ -2,7 +2,7 @@ import Auth from "../data/auth";
 const base_url = "https://api.yelp.com/v3/businesses";
 const apiKey =
   "9MqBJIOqNn_zy3vOm8tz-B3f9xKL_GRSipoaJ7FOuEB8bxi_N9HEPW9pSTviGD1HSD4JJUlo5XBSqmnlytotRgdg3TsA5akH_4nnUnYmjUIEtMuLig9JW9FHe-NSYXYx";
-const db_url = "http://192.168.1.150:3000/api";
+const db_url = "https://restaurant-328707.uc.r.appspot.com/api";
 
 export default getRest = {
   // Get data
@@ -104,23 +104,25 @@ export default getRest = {
   // Delete restaurant by id
   deleteLiked: async (id) => {
     const token = await Auth.getKey("user-token");
-    console.log("Deleting Token " + JSON.stringify(token))
+    // console.log("Deleting Token " + JSON.stringify(token));
     const response = await fetch(`${db_url}/liked/${id}`, {
       method: "DELETE",
       headers: { "auth-token": token, "Content-type": "application/json" },
     });
-    console.log("RESPONSE: " + JSON.stringify(response));
+    // console.log("RESPONSE: " + JSON.stringify(response));
     const data = await response.status;
-    console.log("We came to deleting " + "ID: " + id + " Data: " + JSON.stringify(data))
+    console.log(
+      "We came to deleting " + "ID: " + id + " Data: " + JSON.stringify(data)
+    );
     return data;
   },
 
   // get profile
   getProfile: async () => {
-    const token = await Auth.getValueFor('user-token')
+    const token = await Auth.getValueFor("user-token");
     const response = await fetch(`${db_url}/user/me`, {
       method: "GET",
-      headers: { 'auth-token': token, "Content-type": "application/json" },
+      headers: { "auth-token": token, "Content-type": "application/json" },
     });
     const data = await response.json();
     return data.user;
@@ -128,11 +130,11 @@ export default getRest = {
 
   // update profile
   updateProfile: async (profile) => {
-    const token = await Auth.getValueFor('user-token')
+    const token = await Auth.getValueFor("user-token");
     const response = await fetch(`${db_url}/user`, {
       method: "PUT",
-      headers: { 'auth-token': token, "Content-type": "application/json" },
-      body: JSON.stringify(profile)
+      headers: { "auth-token": token, "Content-type": "application/json" },
+      body: JSON.stringify(profile),
     });
     const data = await response.json();
     return data;

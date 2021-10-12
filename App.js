@@ -21,7 +21,7 @@ export default function App() {
   const [liked, setLiked] = useState([]);
 
   useEffect(() => {
-    handleIfUserLoggedIn()
+    handleIfUserLoggedIn();
   }, [loggedIn]);
 
   useEffect(() => {
@@ -34,8 +34,8 @@ export default function App() {
 
   const handleIfUserLoggedIn = async () => {
     const token = await Auth.getValueFor("user-token");
-    if (token) return setloggedIn(true)
-  }
+    if (token) return setloggedIn(true);
+  };
 
   const handlePressedCategory = (cat) => {
     console.log("you are here " + cat);
@@ -43,14 +43,11 @@ export default function App() {
     setSearch(cat);
   };
 
-
-
   const handlePopularRest = () => {
     console.log(city);
     console.log(search);
-    fetchPopular(city, search)
-  }
-
+    fetchPopular(city, search);
+  };
 
   const handleSearch = () => {
     console.log("Entered");
@@ -58,7 +55,7 @@ export default function App() {
   };
 
   const fetchData = async (city, search) => {
-    console.log("fetchData accesed")
+    console.log("fetchData accesed");
     if (fetchingType === "default") {
       await data
         .getByCity(city, search)
@@ -86,76 +83,92 @@ export default function App() {
         let reviews = 0;
         let len = res.businesses.length;
 
-        res.businesses.forEach(item => {
-          reviews += item.review_count
-        })
+        res.businesses.forEach((item) => {
+          reviews += item.review_count;
+        });
 
-        let average = reviews/len
+        let average = reviews / len;
 
-        res.businesses.forEach(item => {
-          if(item.review_count > average) {
-            console.log("popular bee: " + item.name)
+        res.businesses.forEach((item) => {
+          if (item.review_count > average) {
+            console.log("popular bee: " + item.name);
             popular.push(item);
           }
         });
-        if (popular.length===0) {
+        if (popular.length === 0) {
           Alert.alert(
             "You are at the end of the world",
             "Nothing is popular here!",
-            [{text:"I understand"}]);
-            return
-          }
+            [{ text: "I understand" }]
+          );
+          return;
+        }
         setRest(popular);
         setItemsToShow(popular);
       })
       .catch((err) => console.log(err.stack));
     return;
-    }
+  };
 
   const handleChangeLocation = (city) => {
     fetchData(city, search);
   };
 
-  const handleLiked = (restId) =>
-  {
-    const likedObj =
-        {
-          rest_id: restId.id,
-          name: restId.name,
-          img_url: restId.image_url,
-          rating: restId.rating,
-          address: restId.location.address1 + " " + restId.location.city,
-        }
+  const handleLiked = (restId) => {
+    const likedObj = {
+      rest_id: restId.id,
+      name: restId.name,
+      img_url: restId.image_url,
+      rating: restId.rating,
+      address: restId.location.address1 + " " + restId.location.city,
+    };
 
-    data.addLiked(likedObj)
-        .then((res) => setLiked([res.message, ...liked]))
-        .catch((err) => console.log(err));
-  }
+    data
+      .addLiked(likedObj)
+      .then((res) => setLiked([res.message, ...liked]))
+      .catch((err) => console.log(err));
+  };
 
   const fetchLiked = async () => {
-    await data.getLikedRest()
-        .then((res) => {
-          console.log("RES: " + JSON.stringify(res));
-          setLiked(res.message)
-        })
-        .catch((err) => console.log(err.stack));
-  }
+    await data
+      .getLikedRest()
+      .then((res) => {
+        console.log("RES: " + JSON.stringify(res));
+        setLiked(res.message);
+      })
+      .catch((err) => console.log(err.stack));
+  };
 
   useEffect(() => {
-    fetchLiked(),
-        console.log("WE are here: " + JSON.stringify(liked))
+    fetchLiked();
   }, [loggedIn]);
 
-  const deleteLikedItem = id =>
-  {
+  const deleteLikedItem = (id) => {
+    const likedItem = liked.find((item) => item.rest_id === id);
+    console.log(likedItem._id);
     console.log("ID: " + id);
-    data.deleteLiked(id).then((res) => {
-        if(res === 204)
-    {const newList = liked.filter(item => item._id !== id)
-        console.log("NEW LIST: " + JSON.stringify(newList))
-        setLiked(newList)}})
-  .catch((err) => console.log(err));
-  }
+    if (likedItem !== undefined) {
+      data
+        .deleteLiked(likedItem._id)
+        .then((res) => {
+          if (res === 204) {
+            const newList = liked.filter((item) => item._id !== likedItem._id);
+            setLiked(newList);
+          }
+        })
+        .catch((err) => console.log(err));
+      return;
+    }
+    data
+      .deleteLiked(id)
+      .then((res) => {
+        if (res === 204) {
+          const newList = liked.filter((item) => item._id !== id);
+          setLiked(newList);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   // local storage
 
