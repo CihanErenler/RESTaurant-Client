@@ -84,6 +84,8 @@ const TabNav = (props) => {
               setCity={setCity}
               onLocation={onLocation}
               handleLiked={handleLiked}
+              liked={liked}
+              deleteLiked={deleteLiked}
             />
           )}
         </Tab.Screen>
@@ -140,7 +142,13 @@ const TabNav = (props) => {
             },
           }}
         >
-            {(props) => <LikedContainer {...props} liked={liked} deleteLikedItem={deleteLiked} />}
+          {(props) => (
+            <LikedScreen
+              {...props}
+              liked={liked}
+              deleteLikedItem={deleteLiked}
+            />
+          )}
         </Tab.Screen>
         <Tab.Screen
           name="Profile"

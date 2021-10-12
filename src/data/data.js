@@ -113,10 +113,10 @@ export default getRest = {
 
   // get profile
   getProfile: async () => {
-    const token = await Auth.getValueFor('user-token')
+    const token = await Auth.getValueFor("user-token");
     const response = await fetch(`${db_url}/user/me`, {
       method: "GET",
-      headers: { 'auth-token': token, "Content-type": "application/json" },
+      headers: { "auth-token": token, "Content-type": "application/json" },
     });
     const data = await response.json();
     return data.user;
@@ -124,11 +124,11 @@ export default getRest = {
 
   // update profile
   updateProfile: async (profile) => {
-    const token = await Auth.getValueFor('user-token')
+    const token = await Auth.getValueFor("user-token");
     const response = await fetch(`${db_url}/user`, {
       method: "PUT",
-      headers: { 'auth-token': token, "Content-type": "application/json" },
-      body: JSON.stringify(profile)
+      headers: { "auth-token": token, "Content-type": "application/json" },
+      body: JSON.stringify(profile),
     });
     const data = await response.json();
     return data;

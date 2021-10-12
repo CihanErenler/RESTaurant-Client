@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,22 +13,23 @@ import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-const RestItem = ({ item, onPress, onHeartPress }) => {
+const RestItem = ({ item, onPress, onHeartPress, isLiked, deleteLiked }) => {
+  // const [isHeartPressed, setIsHeartPressed] = useState(isLiked);
 
-  const [isHeartPressed, setIsHeartPressed] = useState(false);
+  const heart = {
+    name: isLiked ? "heart" : "hearto",
+    color: isLiked ? colors.accent : colors.light_gray_2,
+  };
 
-  const heart =
-      {
-        name: isHeartPressed ? "heart" : "hearto",
-        color: isHeartPressed ? colors.accent : colors.light_gray_2
-      }
-
-    const heartPressed = () =>
-        {
-          isHeartPressed ? setIsHeartPressed(false) : setIsHeartPressed(true);
-          onHeartPress();
-        }
-
+  const heartPressed = () => {
+    if (isLiked) {
+      // setIsHeartPressed(false);
+      deleteLiked(item.id);
+      return;
+    }
+    // isHeartPressed ? setIsHeartPressed(false) : setIsHeartPressed(true);
+    onHeartPress();
+  };
 
   return (
     <TouchableOpacity onPress={onPress} style={{ marginHorizontal: 20 }}>
@@ -48,11 +49,11 @@ const RestItem = ({ item, onPress, onHeartPress }) => {
             {item.name}
           </Text>
           {item.categories.length > 0 && (
-              <View style={styles.categories}>
-                <View style={styles.pill}>
-                  <Text style={styles.pillText}>{item.categories[0].title}</Text>
-                </View>
+            <View style={styles.categories}>
+              <View style={styles.pill}>
+                <Text style={styles.pillText}>{item.categories[0].title}</Text>
               </View>
+            </View>
           )}
           <View style={styles.rating}>
             <View style={styles.address}>
@@ -68,11 +69,7 @@ const RestItem = ({ item, onPress, onHeartPress }) => {
           </View>
         </View>
         <TouchableOpacity onPress={heartPressed} style={styles.heartIcon}>
-          <AntDesign
-            {...heart}
-            size={24}
-            style={styles.icon}
-          />
+          <AntDesign {...heart} size={24} style={styles.icon} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
