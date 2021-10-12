@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
   StyleSheet,
   Text,
@@ -7,38 +7,21 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { Rating, AirbnbRating } from "react-native-ratings";
+import { Rating } from "react-native-ratings";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import customStyles from "../helpers/styles";
-import { AntDesign } from "@expo/vector-icons";
+import { EvilIcons } from '@expo/vector-icons';
 import { Entypo } from "@expo/vector-icons";
-const RestItem = ({ item, onPress, onHeartPress, isLiked, deleteLiked }) => {
-  // const [isHeartPressed, setIsHeartPressed] = useState(isLiked);
-
-  const heart = {
-    name: isLiked ? "heart" : "hearto",
-    color: isLiked ? colors.accent : colors.light_gray_2,
-  };
-
-  const heartPressed = () => {
-    if (isLiked) {
-      // setIsHeartPressed(false);
-      deleteLiked(item.id);
-      return;
-    }
-    // isHeartPressed ? setIsHeartPressed(false) : setIsHeartPressed(true);
-    onHeartPress();
-  };
-
+const LikedItem = ({ item, onPress, likedItemDetails}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={{ marginHorizontal: 20 }}>
-      <View style={styles.card}>
+    <View style={{ marginHorizontal: 20 }}>
+      <TouchableOpacity style={styles.card} onPress={likedItemDetails}>
         <View style={styles.imageWrap}>
           <Image
             source={
-              item.image_url
-                ? { uri: item.image_url }
+              item.img_url !== "Default"
+                ? { uri: item.img_url }
                 : require("../../assets/images/placeholder.png")
             }
             style={styles.image}
@@ -48,35 +31,27 @@ const RestItem = ({ item, onPress, onHeartPress, isLiked, deleteLiked }) => {
           <Text numberOfLines={1} style={styles.title}>
             {item.name}
           </Text>
-          {item.categories.length > 0 && (
-            <View style={styles.categories}>
-              <View style={styles.pill}>
-                <Text style={styles.pillText}>{item.categories[0].title}</Text>
-              </View>
-            </View>
-          )}
           <View style={styles.rating}>
             <View style={styles.address}>
               <Entypo name="location-pin" size={18} color="#FA5D5D" />
-              <Text>{item.location.address1}</Text>
+              <Text>{item.address}</Text>
             </View>
             <Rating
-              ratingColor="tomato"
               startingValue={parseFloat(item.rating)}
               readonly={true}
               imageSize={15}
             />
           </View>
         </View>
-        <TouchableOpacity onPress={heartPressed} style={styles.heartIcon}>
-          <AntDesign {...heart} size={24} style={styles.icon} />
+        <TouchableOpacity onPress={onPress.bind(this, item._id)}>
+            <EvilIcons name="trash" size={30} color={colors.primary} />
         </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
-export default RestItem;
+export default LikedItem;
 
 const styles = StyleSheet.create({
   card: {
@@ -92,6 +67,7 @@ const styles = StyleSheet.create({
   },
   details: {
     alignItems: "flex-start",
+    justifyContent: 'center',
     flex: 1,
     height: "100%",
     paddingHorizontal: spacings.s12,
@@ -113,27 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: "bold",
   },
-  pill: {
-    minWidth: 50,
-    paddingVertical: 3,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 20,
-    borderRadius: 24,
-    backgroundColor: `rgba(25,156,219,0.1)`,
-    marginTop: 5,
-    paddingHorizontal: spacings.s10,
-    marginBottom: spacings.s5,
-  },
-  pillText: {
-    fontSize: 14,
-    color: colors.primary,
-    textAlign: "center",
-  },
-  heartIcon: {
-    right: spacings.s12,
-    bottom: spacings.s30,
-  },
+
   rating: {
     width: "100%",
     alignItems: "flex-start",

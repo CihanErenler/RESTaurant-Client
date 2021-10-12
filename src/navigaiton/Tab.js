@@ -16,6 +16,7 @@ import SettingsScreen from "../screens/SettingsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import HomeContainer from "../screens/HomeContainer";
 import LikedScreen from "../screens/LikedScreen";
+import LikedContainer from "../screens/LikedContainer";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +30,7 @@ const TabNav = (props) => {
     setCity,
     handleSearch,
     handleCat,
+    handlePopular,
     categories,
     showModal,
     setShowModal,
@@ -36,7 +38,11 @@ const TabNav = (props) => {
     setItemsToShow,
     onLocation,
     setUserCoordinate,
-    setFetchingType
+    setFetchingType,
+    setloggedIn,
+    handleLiked,
+    liked,
+    deleteLiked,
   } = props;
   return (
     <NavigationContainer>
@@ -77,6 +83,9 @@ const TabNav = (props) => {
               city={city}
               setCity={setCity}
               onLocation={onLocation}
+              handleLiked={handleLiked}
+              liked={liked}
+              deleteLiked={deleteLiked}
             />
           )}
         </Tab.Screen>
@@ -106,14 +115,14 @@ const TabNav = (props) => {
               {...props}
               categories={categories}
               onMoveBack={handleCat}
+              onShowPopular={handlePopular}
               setUserCoordinate={setUserCoordinate}
               setFetchingType={setFetchingType}
             />
           )}
         </Tab.Screen>
         <Tab.Screen
-          name="Liked"
-          component={LikedScreen}
+          name="LikedContainer"
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -132,7 +141,9 @@ const TabNav = (props) => {
               );
             },
           }}
-        />
+        >
+            {(props) => <LikedContainer {...props} liked={liked} deleteLikedItem={deleteLiked} />}
+        </Tab.Screen>
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}
@@ -157,7 +168,6 @@ const TabNav = (props) => {
         />
         <Tab.Screen
           name="Settings"
-          component={SettingsScreen}
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -176,7 +186,9 @@ const TabNav = (props) => {
               );
             },
           }}
-        />
+        >
+          {(props) => <SettingsScreen {...props} setloggedIn={setloggedIn} />}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -17,17 +17,6 @@ import colors from "../helpers/colors";
 import { Ionicons } from "@expo/vector-icons";
 import Filter from "../components/Filter";
 
-let isFavorite = false;
-const heartPressed = () => {
-  if (isFavorite === false) {
-    isFavorite = true;
-    console.log("Added to favorite");
-  } else {
-    isFavorite = false;
-    console.log("Removed from favorite");
-  }
-};
-
 function HomeScreen({
   rest,
   search,
@@ -42,6 +31,9 @@ function HomeScreen({
   city,
   setCity,
   onLocation,
+  handleLiked,
+  liked,
+  deleteLiked,
 }) {
   const [asc, setAsc] = useState(false);
   const [desc, setDesc] = useState(false);
@@ -97,6 +89,11 @@ function HomeScreen({
     setAsc(false);
   };
 
+  const check = (liked, id) => {
+    const item = liked.find((i) => i.rest_id === id);
+    return item !== undefined;
+  };
+
   // Filter by price
   const filter = () => {
     const lowest = rest.filter((item) => item.price === "€");
@@ -139,11 +136,13 @@ function HomeScreen({
             renderItem={({ item }) => {
               return (
                 <RestItem
+                  isLiked={check(liked, item.id)}
+                  deleteLiked={deleteLiked}
                   item={item}
                   onPress={() =>
                     navigation.navigate("Details", { id: item.id })
                   }
-                  onHeartPress={heartPressed}
+                  onHeartPress={() => handleLiked(item)}
                 />
               );
             }}
@@ -187,5 +186,6 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     paddingTop: 20,
     backgroundColor: colors.bg_light_blue,
+    paddingBottom: Platform.OS === "android" ? 100 : 60,
   },
 });

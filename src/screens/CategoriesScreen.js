@@ -6,25 +6,39 @@ import {
   FlatList,
   SafeAreaView,
   Dimensions,
+  Platform,
 } from "react-native";
 import colors from "../helpers/colors";
 import spacings from "../helpers/spacings";
 import CatCard from "../components/CatCard";
 import CatBtns from "../components/CatBtns";
-import * as Location from '../data/location'
+import * as Location from "../data/location";
 
-const Categories = ({ categories, navigation, onMoveBack, setUserCoordinate, setFetchingType }) => {
+const Categories = ({
+  categories,
+  navigation,
+  onMoveBack,
+  onShowPopular,
+  setUserCoordinate,
+  setFetchingType,
+}) => {
   const goBackHome = (cat) => {
     navigation.navigate("Home");
     onMoveBack(cat);
   };
 
   const goHomeNearByLocation = async () => {
-    const {coords: { latitude, longitude }} = await Location.getUserLocation()
-    // console.log(latitude, longitude)
-    setFetchingType('coordinate')
-    setUserCoordinate({latitude, longitude})
-    navigation.navigate("Home")
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getUserLocation();
+    setFetchingType("coordinate");
+    setUserCoordinate({ latitude, longitude });
+    navigation.navigate("Home");
+  };
+
+  const showPopular = () => {
+    navigation.navigate("Home");
+    onShowPopular();
   }
 
   return (
@@ -35,6 +49,7 @@ const Categories = ({ categories, navigation, onMoveBack, setUserCoordinate, set
         subtitle="See what's trending now"
         color={colors.accent}
         icon="heart"
+        onPress={showPopular}
       />
       <CatBtns
         title="Near you"
@@ -81,7 +96,6 @@ const styles = StyleSheet.create({
 
   catwrapper: {
     width: Dimensions.get("window").width - 32,
-    maxHeight: '72%',
     flex: 1,
     marginTop: spacings.s10,
     backgroundColor: colors.bg_light_blue,
@@ -93,5 +107,6 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: colors.bg_light_blue,
     marginTop: spacings.s10,
+    paddingBottom: Platform.OS === "android" ? 100 : 60,
   },
 });

@@ -37,9 +37,10 @@ const Filter = ({
   const [inputValue, setInputValue] = useState("");
 
   const filter = (value) => {
-    const newList = cities.filter((val) => val.city.indexOf(value) > -1);
+    const newList = cities.filter(
+      (val) => val.city.toLowerCase().indexOf(value.toLowerCase()) > -1
+    );
     setCitiesToShow(newList);
-    console.log(newList);
   };
 
   const handleLocation = (value) => {
@@ -124,6 +125,7 @@ const Filter = ({
           ) : null}
         </View>
         <Button
+          style={styles.button}
           text="Close"
           onPress={() => {
             setShowModal(false);
@@ -208,5 +210,9 @@ const styles = StyleSheet.create({
   },
   filteredCityText: {
     textAlign: "center",
+  },
+  button: {
+    width: 305,
+    height: 45,
   },
 });

@@ -21,6 +21,9 @@ const HomeContainer = (props) => {
     city,
     setCity,
     onLocation,
+    handleLiked,
+    liked,
+    deleteLiked,
   } = props;
   return (
     <Stack.Navigator>
@@ -45,11 +48,16 @@ const HomeContainer = (props) => {
             city={city}
             setCity={setCity}
             onLocation={onLocation}
+            handleLiked={handleLiked}
+            liked={liked}
+            deleteLiked={deleteLiked}
           />
         )}
       </Stack.Screen>
-      <Stack.Screen name="Details" component={Details} 
-       options={{headerShown: false}}
+      <Stack.Screen
+        name="Details"
+        component={Details}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

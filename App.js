@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import data from "./src/data/data";
 import categories from "./src/data/categories";
 import TabNav from "./src/navigaiton/Tab";
 import Context from "./src/context/Context";
 import WelcomeStack from "./src/navigaiton/WelcomeStack";
-
-const Tab = createBottomTabNavigator();
+import Auth from "./src/data/auth";
 
 export default function App() {
   const [rest, setRest] = useState(null);
@@ -17,34 +16,50 @@ export default function App() {
   const [category, setCategory] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loggedIn, setloggedIn] = useState(false);
-  const [userCoordinate, setUserCoordinate] = useState()
-  const [fetchingType, setFetchingType] = useState('default') // 'default', 'coordinate' look fetchData()
-
+  const [userCoordinate, setUserCoordinate] = useState();
+  const [fetchingType, setFetchingType] = useState("default"); // 'default', 'coordinate' look fetchData()
+  const [liked, setLiked] = useState([]);
+  const [tokenReceived, settokenReceived] = useState(false)
+  
   useEffect(() => {
-    fetchData(city, search);
-  }, []);
-
+    handleIfUserLoggedIn();
+  }, [loggedIn]);
+  
   useEffect(() => {
     fetchData(city, category);
   }, [category]);
-
+  
   useEffect(() => {
     if (userCoordinate) fetchData(city, category);
   }, [userCoordinate]);
 
+  useEffect(() => {
+    if (tokenReceived) {
+      fetchLiked()
+      settokenReceived(false)
+    }
+  }, [tokenReceived]);
+  
+  const handleIfUserLoggedIn = async () => {
+    const token = await Auth.getValueFor("user-token");
+    if (token) return settokenReceived(true);
+  };
+  
   const handlePressedCategory = (cat) => {
-    console.log("you are here " + cat);
     setCategory(cat);
     setSearch(cat);
   };
 
+  const handlePopularRest = () => {
+    fetchPopular(city, search)
+  }
+
   const handleSearch = () => {
-    console.log("Entered");
     fetchData(city, search);
   };
 
   const fetchData = async (city, search) => {
-    if (fetchingType === 'default') {
+    if (fetchingType === "default") {
       await data
         .getByCity(city, search)
         .then((res) => {
@@ -52,23 +67,105 @@ export default function App() {
           setItemsToShow(res.businesses);
         })
         .catch((err) => console.log(err.stack));
-      return
+      return;
     }
 
-    console.log('54. userCoordinate')
-    console.log(userCoordinate)
-    data.getByCoordinate(userCoordinate)
-    .then((res) => {
+    data.getByCoordinate(userCoordinate).then((res) => {
       setRest(res.businesses);
       setItemsToShow(res.businesses);
-      setFetchingType('default')
-    })
-    console.log('fetch by coordinate')
+      setFetchingType("default");
+    });
+  };
+
+  const fetchPopular = async (city, search) => {
+    await data
+      .getByCity(city, "food")
+      .then((res) => {
+        let popular = [];
+        let reviews = 0;
+        let len = res.businesses.length;
+
+        res.businesses.forEach((item) => {
+          reviews += item.review_count;
+        });
+
+        let average = reviews / len;
+
+        res.businesses.forEach(item => {
+          if(item.review_count > average) {
+            popular.push(item);
+          }
+        });
+        if (popular.length === 0) {
+          Alert.alert(
+            "You are at the end of the world",
+            "Nothing is popular here!",
+            [{ text: "I understand" }]
+          );
+          return;
+        }
+        setRest(popular);
+        setItemsToShow(popular);
+      })
+      .catch((err) => console.log(err.stack));
+    return;
   };
 
   const handleChangeLocation = (city) => {
     fetchData(city, search);
   };
+
+  const handleLiked = (restId) =>
+  {
+    const likedObj =
+        {
+          rest_id: restId.id,
+          name: restId.name,
+          img_url: restId.image_url ? restId.image_url : "Default",
+          rating: restId.rating,
+          address: restId.location.address1 + " " + restId.location.city,
+        }
+
+    data.addLiked(likedObj)
+        .then((res) => setLiked([res.message, ...liked]))
+        .catch((err) => console.log(err));
+  }
+
+  const fetchLiked = async () => {
+    await data
+      .getLikedRest()
+      .then((res) => {
+        setLiked(res.message);
+      })
+      .catch((err) => console.log(err.stack));
+  };
+
+  const deleteLikedItem = (id) => {
+    const likedItem = liked.find((item) => item.rest_id === id);
+    if (likedItem !== undefined) {
+      data
+        .deleteLiked(likedItem._id)
+        .then((res) => {
+          if (res === 204) {
+            const newList = liked.filter((item) => item._id !== likedItem._id);
+            setLiked(newList);
+          }
+        })
+        .catch((err) => console.log(err));
+      return;
+    }
+    data
+      .deleteLiked(id)
+      .then((res) => {
+        if (res === 204) {
+          const newList = liked.filter((item) => item._id !== id);
+          setLiked(newList);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // local storage
 
   if (!loggedIn) {
     return <WelcomeStack loggedIn={loggedIn} setloggedIn={setloggedIn} />;
@@ -84,6 +181,7 @@ export default function App() {
       setCity={setCity}
       handleSearch={handleSearch}
       handleCat={handlePressedCategory}
+      handlePopular={handlePopularRest}
       categories={categories}
       showModal={showModal}
       setShowModal={setShowModal}
@@ -92,6 +190,10 @@ export default function App() {
       onLocation={handleChangeLocation}
       setUserCoordinate={setUserCoordinate}
       setFetchingType={setFetchingType}
+      setloggedIn={setloggedIn}
+      handleLiked={handleLiked}
+      liked={liked}
+      deleteLiked={deleteLikedItem}
     />
   );
 }
